@@ -107,7 +107,7 @@ Golang（又称 Go）是由Google于 2009 年推出的静态强类型、编译�
 
 
 ---
-### ⚙️ 进阶技术
+### 🔧 进阶技术
 | No. | address |
 | :--- | :--- |
 | 1 | [接口](https://golang.halfiisland.com/essential/senior/85.interface.html) |
@@ -234,7 +234,7 @@ Golang（又称 Go）是由Google于 2009 年推出的静态强类型、编译�
 
 ---
 
-## 🛠️ 相关技术
+## 🎨 相关技术
 
 ### 🌐 网络基础
 #### 一、为什么 Go 开发者需要网络知识  
