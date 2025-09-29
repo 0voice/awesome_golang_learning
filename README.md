@@ -25,6 +25,8 @@
   * [MySQL](#-MySQL)
   * [Redis](#-Redis)
 * [Web框架](#-Web框架)
+  * [Gin框架](#Gin框架)
+  * [Beego框架](#Beego框架)
 * [项目实战](#-项目实战)
 ---
 
@@ -235,8 +237,8 @@ Golang（又称 Go）是由Google于 2009 年推出的静态强类型、编译�
 ---
 ## 🛠️ 相关技术
 
-# 网络基础
-## 一、为什么 Go 开发者需要网络知识  
+### 网络基础
+#### 一、为什么 Go 开发者需要网络知识  
 Go 语言的强项之一就是网络编程，很多项目直接基于 TCP/UDP/HTTP 协议，比如：
 - Web 后端（HTTP API）
 - 微服务（gRPC、HTTP/2）
@@ -247,17 +249,18 @@ Go 语言的强项之一就是网络编程，很多项目直接基于 TCP/UDP/HT
 
 ---
 
-## 二、Web 开发必备网络理论
+#### 二、Web 开发必备网络理论
 
-### 2.1 TCP/IP 四层模型
+**2.1 TCP/IP 四层模型**
 - 网络接口层（ARP、MAC）
 - 网络层（IP 地址、ICMP、路由）
 - 传输层（TCP、UDP）
 - 应用层（HTTP、DNS、WebSocket）
 ---
 
-### 2.2 核心协议详解（★★★★★ 核心）
-#### （1）TCP 协议（Go 网络开发的 "基石"）
+**2.2 核心协议详解（★★★★★ 核心）**  
+
+ **（1）TCP 协议（Go 网络开发的 "基石"）**
 | 核心特性       | 原理要点                                                                 | Go 中需注意的问题                                           |
 |----------------|--------------------------------------------------------------------------|------------------------------------------------------------|
 | 面向连接       | 三次握手（建立）、四次挥手（断开）                                       | 避免 "半连接"（用`net.Listen`的`Accept`自动处理）            |
@@ -265,7 +268,7 @@ Go 语言的强项之一就是网络编程，很多项目直接基于 TCP/UDP/HT
 | 粘包 / 拆包    | 原因：TCP 是 "流协议"，无消息边界                                        | 需手动处理（3种方案：固定长度 / 分隔符 / 消息头 + 长度）    |
 | 拥塞控制       | 慢启动→拥塞避免→快速重传→快速恢复                                        | 理解即可，Go 底层自动适配                                   |
 
-#### （2）HTTP 协议（Web/API 开发必备）
+**（2）HTTP 协议（Web/API 开发必备）**
 | 核心组成       | 原理要点                                                                 | Go 中对应操作                                               |
 |----------------|--------------------------------------------------------------------------|------------------------------------------------------------|
 | 请求结构       | 请求行（方法 + URL + 版本）→请求头→请求体                                | `http.Request`结构体（`r.Method`/`r.URL`/`r.Body`）          |
@@ -273,7 +276,7 @@ Go 语言的强项之一就是网络编程，很多项目直接基于 TCP/UDP/HT
 | 方法 / 状态码  | 常用方法：GET（查）、POST（增）、PUT（改）、DELETE（删）<br>常用状态码：200（成功）、404（未找到）、500（服务错） | `r.Method`判断请求类型<br>`w.WriteHeader(http.StatusOK)`设置状态码 |
 | 版本差异       | HTTP 1.1（长连接）、HTTP 2（多路复用）、HTTP 3（基于 UDP）                | Go `net/http`默认支持 HTTP 1.1，需扩展库支持 HTTP 2/3       |
 
-#### （3）UDP 协议（实时场景补充）
+**（3）UDP 协议（实时场景补充）**
 | 核心特性       | 原理要点                                                                 | Go 应用场景                                                 |
 |----------------|--------------------------------------------------------------------------|------------------------------------------------------------|
 | 无连接         | 无需握手，直接发数据包                                                   | 视频 / 语音传输、游戏同步、心跳检测                         |
@@ -282,21 +285,21 @@ Go 语言的强项之一就是网络编程，很多项目直接基于 TCP/UDP/HT
 
 
 ---
-## 三、相关书籍
+#### 三、相关书籍
 - 《计算机网络（谢希仁）》
 - 《TCP/IP 详解 卷 1：协议》
 - 《HTTP 权威指南》
 ---
-## 四、在线资源
+#### 四、在线资源
 - [Go 标准库 net 包文档](https://pkg.go.dev/net)
 - [Go 标准库 net/http 包文档](https://pkg.go.dev/net/http)
 - [TopGoer 教程/网络编程](http://www.topgoer.com/%E7%BD%91%E7%BB%9C%E7%BC%96%E7%A8%8B/)
 ---
 
 
-# 🐬 MySQL
+### 🐬 MySQL
 
-## 一、安装MySQL驱动    
+#### 一、安装MySQL驱动    
 
 1.1 安装 MySQL  
 首先，确保你的系统中安装了 MySQL 数据库。可以从官网下载安装包进行安装，或者使用包管理器进行安装。  
@@ -311,7 +314,7 @@ go get -u github.com/go-sql-driver/mysql
 
 ---
 
-## 二、连接MySQL  
+#### 二、连接MySQL  
 
 在 Go 中，使用 database/sql 包来管理数据库连接。以下是一个简单的示例，展示如何建立连接：
 
@@ -335,7 +338,7 @@ if err != nil {
 }
 ```
 ---
-## 三、增删改查
+#### 三、增删改查
 
 一旦连接建立，就可以执行 SQL了： 
 
@@ -374,7 +377,7 @@ res, err := db.Exec("DELETE FROM users WHERE name=?", "Alice")
 rowsAffected, _ := res.RowsAffected()
 ```
 ---
-## 四、事务处理
+#### 四、事务处理
 
 在处理涉及多个数据库操作的业务逻辑时，事务是保证数据一致性的关键。以下是一个简单的事务处理示例：  
 
@@ -396,7 +399,7 @@ if err != nil {
 }
 ```
 ---
-## 五、连接池的使用
+#### 五、连接池的使用
 
 5.1 连接池的重要性：  
 在高并发的场景下，建立和关闭数据库连接的开销是非常大的。使用连接池可以复用数据库连接，提高性能。  
@@ -410,10 +413,10 @@ db.SetConnMaxIdleTime(30*time.Minute) // 连接最大空闲时间
 ```
 ---
 
-## GORM的使用   
+### GORM的使用   
 作为 Go 语言中最受欢迎的对象关系映射（ORM）库，GORM 提供了一套简洁且功能强大的 API，极大地简化了数据库操作。  
 
-## 一、GORM 简介
+#### 一、GORM 简介
 GORM 是用 Go 语言编写的 ORM 库，它基于 httprouter 和 Go 标准库构建。其主要特点包括：  
 - 简洁易用：通过定义结构体来映射数据库表，简化数据操作；
 - 功能全面：支持 CRUD、事务、预加载、关联关系、自动迁移等常见功能；
@@ -423,7 +426,7 @@ GORM 是用 Go 语言编写的 ORM 库，它基于 httprouter 和 Go 标准库�
 参考:[GORM官方文档](https://gorm.io/zh_CN/docs/index.html)  
 
 ---
-## 二、环境搭建与安装
+#### 二、环境搭建与安装
 在使用 GORM 之前，首先需要安装 Go 环境，然后通过 ```go get``` 命令安装 GORM 及所需数据库驱动。例如，如果你使用 MySQL 数据库，在终端运行以下命令安装：
 ```bash
 # 安装 GORM 框架
@@ -443,7 +446,7 @@ import (
 )
 ```
 ---
-## 三、连接数据库
+#### 三、连接数据库
 
 GORM 通过 ```gorm.Open()``` 来创建数据库连接。我们需要提供 DSN（Data Source Name） 告诉 GORM 如何连接 MySQL。
 ```go
@@ -473,7 +476,7 @@ func main() {
 ```
 ---
 
-## 四、模型定义（Model） 
+#### 四、模型定义（Model） 
 在 GORM 中，模型就是一个 Go 结构体，每个字段对应数据库表的一列。
 ```go
 type User struct {
@@ -490,7 +493,7 @@ type User struct {
 - UpdatedAt：更新时间
 - DeletedAt：删除时间（用于软删除）
 ---
-## 五、数据库迁移（Auto Migration）  
+#### 五、数据库迁移（Auto Migration）  
 GORM 提供 ```AutoMigrate()``` 方法，可以根据模型自动创建或更新数据库表结构。  
 ```go
 // 自动迁移
@@ -500,7 +503,7 @@ db.AutoMigrate(&User{})
 - 只会新增字段和索引，不会删除已有字段或索引
 - 非常适合在开发阶段快速同步表结构
 ---
-## 六、CRUD 操作   
+#### 六、CRUD 操作   
 6.1 创建（Create）
 使用 ```db.Create() ```插入一条记录到数据库。
 ```go
@@ -554,7 +557,7 @@ db.Delete(&User{}, 1)
 db.Unscoped().Delete(&User{}, 1)
 ```
 ---
-## 七、事务处理
+#### 七、事务处理
 GORM 支持数据库事务，可以保证一系列操作的原子性。  
 ```go
 tx := db.Begin()
@@ -575,7 +578,7 @@ if err := tx.Create(&User{Name: "Charlie", Age: 30}).Error; err != nil {
 tx.Commit()
 ```
 ---
-## 八、关联关系
+#### 八、关联关系
 GORM 支持常见的关联关系：
 - Has One（一对一）
 - Has Many（一对多）
@@ -609,7 +612,7 @@ var user User
 db.Preload("Posts").First(&user, 1)
 ```
 ---
-## 九、钩子函数（Hooks）  
+#### 九、钩子函数（Hooks）  
 Hooks 是在创建、更新、删除等操作前后自动调用的函数，方便你在数据变更时做额外逻辑（如数据校验、密码加密）。
 ```go
 func (u *User) BeforeCreate(tx *gorm.DB) error {
@@ -623,7 +626,7 @@ func (u *User) AfterCreate(tx *gorm.DB) error {
 }
 ```
 ---
-## 十、常见问题与最佳实践
+#### 十、常见问题与最佳实践
 10.1 字段标签（Tags）  
 ```go
 type User struct {
@@ -647,7 +650,7 @@ type User struct {
 10.5 批量操作  
 - 尽可能使用批量插入和更新，减少数据库连接次数；
 
-## 十一、实战案例
+#### 十一、实战案例
 下面是一个简单的示例，展示如何使用 GORM 完成一个用户的 CRUD 操作，并处理一对多关联关系：
 ```go
 package main
@@ -714,9 +717,9 @@ func main() {
 
 ---
 
-# 💾 Redis
+### 💾 Redis
 
-## 一、简介
+#### 一、简介
 Redis 是一个开源的高性能键值数据库，支持多种数据结构，广泛用于缓存、消息队列、排行榜等场景。Go-Redis（github.com/redis/go-redis）是 Go 语言中最流行的 Redis 客户端之一，支持：  
 - 单机、哨兵（Sentinel）、集群（Cluster）模式
 - 连接池管理
@@ -727,7 +730,7 @@ Redis 是一个开源的高性能键值数据库，支持多种数据结构，�
 
 本教程基于 go-redis v9，它是目前的稳定版本，API 简洁且类型安全。
 
-## 二、安装
+#### 二、安装
 go-redis 支持最新的两个 Go 版本。您只能在 Go 模块中使用它，因此您必须在开始之前初始化一个 Go 模块，或者将您的代码添加到现有模块中。
 ```bash
 go mod init github.com/my/repo
@@ -738,7 +741,7 @@ go mod init github.com/my/repo
 go get github.com/redis/go-redis/v9
 ```
 
-## 三、连接Redis
+#### 三、连接Redis
 3.1 以下示例展示了连接到 Redis 服务器的最简单方法:
 ```go
 import (
@@ -782,7 +785,7 @@ if err != nil {
 fmt.Println("foo", val)
 ```
 
-3.2 哨兵模式
+**3.2 哨兵模式**    
 要连接到由 Redis Sentinel 管理的 Redis 服务器
 ```go
 import "github.com/redis/go-redis/v9"
@@ -802,7 +805,7 @@ sentinel := redis.NewSentinelClient(&redis.Options{
 
 addr, err := sentinel.GetMasterAddrByName(ctx, "master-name").Result()
 ```
-3.3 集群模式  
+**3.3 集群模式**      
 要连接到 Redis 集群，请使用 `NewClusterClient()`。可以使用 Addrs 选项指定一个或多个集群端点
 ```go
 rdb := redis.NewClusterClient(&redis.ClusterOptions{
@@ -813,7 +816,7 @@ rdb := redis.NewClusterClient(&redis.ClusterOptions{
     },
 })
 ```
-3.4 使用 TLS 连接生产环境 Redis
+**3.4 使用 TLS 连接生产环境 Redis**
 ```go
 // Load client cert
 cert, err := tls.LoadX509KeyPair("redis_user.crt", "redis_user_private.key")
@@ -854,8 +857,8 @@ if err != nil {
 fmt.Println("foo", val)
 ```
 ---
-## 四、 核心数据类型操作
-4.1 String
+#### 四、 核心数据类型操作
+**4.1 String**
 ```go
 // 设置值
 err := rdb.Set(ctx, "name", "Alice", 0).Err()
@@ -867,7 +870,7 @@ val, _ := rdb.Get(ctx, "name").Result()
 count, _ := rdb.Incr(ctx, "counter").Result()
 ```
 
-4.2 Hash
+**4.2 Hash**
 ```go
 // 设置字段
 err := rdb.HSet(ctx, "user:1", "name", "Alice", "age", 20).Err()
@@ -879,7 +882,7 @@ name, _ := rdb.HGet(ctx, "user:1", "name").Result()
 user, _ := rdb.HGetAll(ctx, "user:1").Result()
 ```
 
-4.3 List
+**4.3 List**
 ```go
 // 左侧添加
 err := rdb.LPush(ctx, "queue", "task1", "task2").Err()
@@ -891,7 +894,7 @@ task, _ := rdb.RPop(ctx, "queue").Result()
 elements, _ := rdb.LRange(ctx, "queue", 0, -1).Result()
 ```
 
-4.4 Set
+**4.4 Set**
 ```go
 // 添加元素
 err := rdb.SAdd(ctx, "tags", "go", "redis").Err()
@@ -903,7 +906,7 @@ tags, _ := rdb.SMembers(ctx, "tags").Result()
 exists, _ := rdb.SIsMember(ctx, "tags", "go").Result()
 ```
 
-4.5 Sorted Set
+**4.5 Sorted Set**
 ```go
 // 添加元素
 err := rdb.ZAdd(ctx, "rank", redis.Z{Score: 90, Member: "Alice"}).Err()
@@ -912,22 +915,22 @@ err := rdb.ZAdd(ctx, "rank", redis.Z{Score: 90, Member: "Alice"}).Err()
 members, _ := rdb.ZRange(ctx, "rank", 0, -1).WithScores().Result()
 ```
 ---
-## 五. 高级功能
-5.1 管道（Pipeline）
+#### 五. 高级功能
+**5.1 管道（Pipeline）**
 ```go
 pipe := rdb.Pipeline()
 pipe.Incr(ctx, "counter1")
 pipe.Incr(ctx, "counter2")
 _, err := pipe.Exec(ctx)
 ```
-5.2 事务
+**5.2 事务**
 ```go
 tx := rdb.Multi()
 tx.Incr(ctx, "counter1")
 tx.Incr(ctx, "counter2")
 _, err := tx.Exec(ctx)
 ```
-5.3 发布 / 订阅
+**5.3 发布 / 订阅**
 ```go
 // 发布
 err := rdb.Publish(ctx, "channel1", "hello").Err()
@@ -939,7 +942,7 @@ for msg := range ch {
     fmt.Println(msg.Channel, msg.Payload)
 }
 ```
-5.4 分布式锁
+**5.4 分布式锁**
 ```go
 lock := redis.NewLock(rdb, "lock_key")
 err := lock.Acquire(ctx)
@@ -947,8 +950,8 @@ defer lock.Release(ctx)
 ```
 ---
 
-## 六、 实战案例
-6.1 缓存示例
+#### 六、 实战案例
+**6.1 缓存示例**
 ```go
 func GetUser(ctx context.Context, rdb *redis.Client, id string) (User, error) {
     // 先查缓存
@@ -969,7 +972,7 @@ func GetUser(ctx context.Context, rdb *redis.Client, id string) (User, error) {
     return user, nil
 }
 ```
-6.2 排行榜
+**6.2 排行榜**
 ```go
 // 添加成绩
 rdb.ZAdd(ctx, "rank", redis.Z{Score: 95, Member: "Alice"})
@@ -989,8 +992,8 @@ https://redis.golang.ac.cn/guide/ring.html
 ---
 
 ## 🔨 web框架
-# Gin框架
-## 一、Gin 框架简介  
+### Gin框架
+#### 一、Gin 框架简介  
 Gin 是一个用 Go (Golang) 编写的高性能 HTTP Web 框架。它基于 Radix Tree 路由算法，性能接近原生 net/http，同时提供了简洁易用的 API 和灵活的中间件机制。
 Gin 非常适合：
 - 构建高性能的 RESTful API
@@ -998,7 +1001,7 @@ Gin 非常适合：
 - 快速开发 Web 应用
 - 需要高度扩展性的项目
 
-### 为什么选择 Gin？
+ **为什么选择 Gin？**
 ⚡ **高性能**：基于 Radix Tree 路由，处理请求速度极快  
 📦 **轻量级**：核心代码简洁，依赖少  
 🔌 **中间件支持**：灵活的中间件机制，易于扩展  
@@ -1006,13 +1009,13 @@ Gin 非常适合：
 🌐 **丰富的生态**：大量官方和社区开发的插件  
 📚 **详细文档**：完善的中文和英文文档
 
-## 二、安装Gin
-2.1 首先需要安装Go（需要1.10+版本），然后可以使用下面的Go命令安装Gin。
+#### 二、安装Gin
+**2.1 首先需要安装Go（需要1.10+版本），然后可以使用下面的Go命令安装Gin。**
 ```bash
 go get -u github.com/gin-gonic/gin
 ```
 
-2.2 将其导入您的代码中：
+**2.2 将其导入您的代码中：**
 ```bash
 import “github.com/gin-gonic/gin”
 ```
@@ -1043,8 +1046,8 @@ go run main.go
 curl http://localhost:8080/ping
 ```
 ---
-## 三、核心功能
-### 3.1 路由  
+#### 三、核心功能
+**3.1 路由**  
 Gin 支持多种路由类型：
 ```go
 // 基本路由
@@ -1064,7 +1067,7 @@ r.GET("/assets/*filepath", func(c *gin.Context) {
 ```
 ✅ 场景：适用于构建 RESTful API、版本化 API（如 /v1/user）、静态资源服务等。  
 <br>
-### 3.2 路由分组（routes group）  
+**3.2 路由分组（routes group）**   
 通过 `Group` 可以将一组路由归类，方便管理中间件和路径前缀：
 ```go
 // API 版本 1
@@ -1079,7 +1082,7 @@ v2.POST("/upload", uploadHandler)
 ```
 ✅ 场景：多版本 API 管理、后台与前台路由分离、权限控制分组等。  
 <br>
-### 3.3 参数绑定与校验  
+**3.3 参数绑定与校验**  
 Gin 支持自动将请求数据（JSON、表单、Query 参数等）绑定到结构体，并支持数据校验：
 ```go
 type LoginRequest struct {
@@ -1098,7 +1101,7 @@ r.POST("/login", func(c *gin.Context) {
 ```
 ✅ 场景：API 输入验证、减少重复解析代码、提高开发效率。  
 <br>
-### 3.4 中间件机制  
+**3.4 中间件机制**    
 Gin 的中间件机制非常灵活，可以在请求处理的不同阶段插入自定义逻辑：
 ```go
 // 自定义日志中间件
@@ -1121,7 +1124,7 @@ r.Use(Logger())
 
 ✅ 场景：日志记录、权限验证、跨域处理、限流、请求耗时统计等。  
 <br>
-### 3.5 响应渲染  
+**3.5 响应渲染**  
 Gin 支持多种响应格式，让你轻松返回 JSON、XML、HTML 等数据：
 ```go
 // JSON 响应
@@ -1138,7 +1141,7 @@ c.HTML(200, "index.tmpl", gin.H{
 ```
 ✅ 场景：API 数据返回、网页渲染、前后端分离项目。  
 <br>
-### 3.6 静态文件服务  
+**3.6 静态文件服务**  
 轻松提供静态文件访问：
 ```go
 // 提供整个目录
@@ -1149,7 +1152,7 @@ r.StaticFile("/favicon.ico", "./resources/favicon.ico")
 ```
 ✅ 场景：网站图片、CSS、JavaScript 文件、下载文件等。  
 <br>
-### 3.7 文件上传  
+**3.7 文件上传**  
 支持单文件和多文件上传：
 ```go
 // 单文件上传
@@ -1161,7 +1164,7 @@ r.POST("/upload", func(c *gin.Context) {
 ```
 ✅ 场景：用户头像上传、附件上传、批量文件上传。  
 <br>
-### 3.8 异步任务  
+**3.8 异步任务**    
 支持在请求处理中启动异步任务，避免阻塞响应：
 ```go
 r.GET("/long_async", func(c *gin.Context) {
@@ -1176,20 +1179,20 @@ r.GET("/long_async", func(c *gin.Context) {
 ```
 ✅ 场景：发送邮件、生成报表、日志处理等耗时操作。  
 <br>
-### 💡 总结  
+**💡 总结**  
 Gin 的核心功能覆盖了 Web 开发的大部分需求，尤其是 **路由系统、中间件机制、参数绑定** 这三大特性，让开发者可以快速构建高性能、可扩展的 Web 应用。无论是轻量级 API 还是复杂的微服务，Gin 都能提供简洁而强大的工具支持。
 
 参考资料：http://www.topgoer.cn/docs/ginkuangjia/ginkuangjia-1c50hfaag99k2
 
 ---
-# Beego框架
-## 一、Beego框架简介
+### Beego框架
+#### 一、Beego框架简介
 Beego 是 Go 语言生态中一款 全功能 Web 框架，遵循 "开箱即用" 设计理念，内置 ORM、日志、会话、缓存等核心组件，无需大量第三方依赖即可快速构建完整 Web 应用。无论是传统 MVC 项目、RESTful API 还是微服务，Beego 都能提供简洁高效的解决方案。  
 
 GitHub 地址：https://github.com/beego/beego  
 官方文档：https://beego.vip/docs/  
 
-### 为什么选择 Beego？
+**为什么选择 Beego？**   
 📦 **全栈集成**：内置 ORM（数据库交互）、Session（会话管理）、Cache（缓存）、Log（日志）等组件，无需额外选型    
 🔧 **开发工具链**：自带 bee 命令行工具，支持代码生成、热重载、项目打包，大幅提升开发效率  
 📐 **MVC 架构**：严格遵循 Model-View-Controller 设计模式，项目结构清晰，便于维护  
@@ -1197,8 +1200,8 @@ GitHub 地址：https://github.com/beego/beego
 👷 **内置安全特性**：自动防御 XSS、CSRF、SQL 注入等常见安全问题，降低安全开发成本  
 📊 **性能监控**：内置监控面板，可实时查看请求 QPS、响应时间、内存占用等指标  
 
-## 二、安装Beego
-### 2.1 环境准备
+#### 二、安装Beego
+**2.1 环境准备**
 首先安装 Beego 框架和官方命令行工具 bee：
 ```bash
 # 安装 Beego 核心库
@@ -1213,7 +1216,7 @@ go install github.com/beego/bee/v2@latest
 # 查看 bee 版本，确认安装成功
 bee version
 ```
-### 2.2 创建第一个 Beego 项目
+**2.2 创建第一个 Beego 项目**  
 使用 bee 工具快速生成项目骨架：
 ```bash
 # 创建名为 "mybeegoapp" 的项目
@@ -1228,7 +1231,7 @@ bee run
 
 访问 `http://localhost:8080`，即可看到 Beego 默认欢迎页，说明项目启动成功！  
 
-### 2.3 项目目录结构
+**2.3 项目目录结构**  
 `bee new` 生成的项目遵循标准 MVC 结构，清晰易懂：  
 ```plaintext
 mybeegoapp/
@@ -1249,8 +1252,8 @@ mybeegoapp/
 └── go.mod         # Go Modules 依赖配置
 ```
 
-## 三、核心功能
-### 3.1 路由配置：URL 映射到控制器
+#### 三、核心功能
+**3.1 路由配置：URL 映射到控制器**  
 路由是请求的入口，Beego 支持多种路由规则，配置文件在 routers/router.go 中。
 基本路由（GET/POST 等）
 ```go
@@ -1272,7 +1275,7 @@ func init() {
     web.Router("/user/:id", &controllers.UserController{}, "get:GetUser")
 }
 ```
-### 3.2 控制器：处理请求逻辑
+**3.2 控制器：处理请求逻辑**    
 控制器负责接收请求、处理业务逻辑、返回响应，代码放在 controllers/ 目录下。
 示例：实现一个用户控制器
 ```go
@@ -1323,7 +1326,7 @@ func (c *UserController) Prepare() {
     }
 }
 ```
-### 3.3 模型（ORM）：数据库交互  
+**3.3 模型（ORM）：数据库交互**    
 Beego 内置强大的 ORM 组件，支持 MySQL、PostgreSQL、SQLite 等主流数据库，无需手写 SQL 即可完成数据操作。  
 
 **步骤 1**：配置数据库（conf/app.conf）
@@ -1421,7 +1424,7 @@ func GetUserByUsername(username string) (*User, error) {
 }
 ```
 
-### 3.4 视图模板：HTML 渲染
+**3.4 视图模板：HTML 渲染**  
 Beego 支持基于 Go 原生模板语法的视图渲染，模板文件放在 `views/` 目录下，支持模板继承、变量渲染、循环判断等功能。
 示例 1：基础模板（views/base.tpl）
 ```html
@@ -1467,7 +1470,7 @@ Beego 支持基于 Go 原生模板语法的视图渲染，模板文件放在 `vi
 </div>
 {{end}}
 ```
-### 3.5 会话管理（Session）
+**3.5 会话管理（Session）**    
 Beego 内置 Session 组件，支持内存、文件、Redis 等多种存储方式，用于保存用户登录状态、临时数据等。  
 
 **配置 Session（conf/app.conf）**
@@ -1510,7 +1513,7 @@ func (c *LoginController) Logout() {
     c.Redirect(302, "/login")
 }
 ```
-### 3.6 缓存（Cache）
+**3.6 缓存（Cache）**  
 Beego 内置缓存组件，支持内存、Redis、Memcached 等存储方式，用于减轻数据库压力，提升高频访问接口的响应速度。
 示例：使用缓存存储热门数据
 ```go
@@ -1562,11 +1565,11 @@ func (c *HotController) GetHotArticles() {
     c.ServeJSON()
 }
 ```
-## 四、进阶实战：构建 RESTful API
+#### 四、进阶实战：构建 RESTful API
 
 Beego 非常适合构建 RESTful API，通过路由映射和 JSON 响应，可以快速实现规范的 API 服务。
 
-### 4.1 定义 API 路由（routers/router.go）
+**4.1 定义 API 路由（routers/router.go）**
 ```go
 package routers
 
@@ -1595,7 +1598,7 @@ func init() {
     web.AddNamespace(api)
 }
 ```
-### 4.2 控制器实现（controllers/user_api.go 示例）
+**4.2 控制器实现（controllers/user_api.go 示例）**
 ```go
 package controllers
 
@@ -1702,9 +1705,6 @@ func (c *UserAPIController) Delete() {
 参考资料：http://www.topgoer.cn/docs/beegozhongwenwendang/beegozhongwenwendang-1c5087bb5qpst
 
 ---
-
-
-
 
 
 
