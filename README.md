@@ -1431,7 +1431,7 @@ func (c *UserAPIController) Delete() {
 ```
 参考资料：http://www.topgoer.cn/docs/beegozhongwenwendang/beegozhongwenwendang-1c5087bb5qpst
 
-
+---
 
 
 
@@ -1442,7 +1442,17 @@ func (c *UserAPIController) Delete() {
 
 
 ##  💻 项目实战
-
+| No. | address | description | 
+| :--- | :--- | :--- |
+| 1 | [Gin-vue-admin](https://github.com/flipped-aurora/gin-vue-admin) | 这是一个基于 vue 和 gin 开发的全栈前后端分离的开发基础平台，集成了 jwt 鉴权、动态路由、动态菜单、casbin 鉴权、表单生成器、代码生成器等功能，提供多种示例文件，还配有完整的文档教程和视频教程，非常适合新手入门学习 |
+| 2 | [rpcx](https://github.com/smallnest/rpcx) | 一个分布式的 Go 语言的 RPC 框架，支持 Zookepper、etcd、consul 多种服务发现方式和多种服务路由方式，是目前性能最好的 RPC 框架之一，文档比较齐全，有专门的团队维护，适合新手入门 RPC 领域 |
+| 3 | [go-kit](https://github.com/go-kit/kit) | 基于 go-kit 可以快速构建健壮、可靠、可维护的微服务，它提供了对 consul、etcd、zookeeper、eureka 等注册中心的支持 |
+| 4 | [go-backend-clean-architecture](https://github.com/amitshekhariitbhu/go-backend-clean-architecture) | 该项目通过一个 HTTP demo 介绍了一个优雅的 Go 项目结构，采用了整洁架构，包含了接口层、业务层、数据层等，对于学习如何构建结构清晰、易于维护的 Go 项目有很大帮助 |
+| 5 | [golang-gin-realworld-example-app](https://github.com/gothinkster/golang-gin-realworld-example-app) | 这是一个使用 Golang 和 Gin 构建的真实世界应用示例，实现了常见的 CRUD 操作、用户认证、JWT 鉴权等功能，遵循 RESTful API 规范，是学习 Gin 框架和实际项目开发的不错范例 |
+| 6 | [miniblog](https://github.com/onexstack/miniblog) | 这是一个轻量但功能齐全的博客系统，参考 Kubernetes 的软件设计，采用独有的三层架构。项目集成了 gorm、casbin、jwt - go 等常用 Go 包，实现了基于 JWT 的认证和基于 Casbin 的授权功能，还包含单元测试、性能测试等多种测试案例。配套有完整的课程（共 40 节课），从 0 到 1 介绍 Go 项目的构建思路和实现方法，并且有一个与之完全匹配的开发脚手架 osbuilder，可以一键生成新的 Go 项目 |
+| 7 | [go - by - example](https://github.com/wangkechun/go) | 这是字节青训营的配套项目，包含三个小项目。“guessing - game” 是一个猜数字游戏，帮助初学者熟悉 Go 语言的基本语法；“simpledict” 是一个简易翻译工具，通过调用翻译软件的 API 实现翻译功能，还涉及到并发编程的知识；“proxy” 是一个简易版的 socks5 代理服务器，实现了代理服务器的认证和连接功能，有助于理解网络编程 |
+| 8 | [Ferry](https://github.com/lanyulei/ferry) | 基于 Gin + Vue + Element UI 前后端分离的工单系统，集工单统计、任务钩子、权限管理、灵活配置流程与模版等功能于一身，致力于减少跨部门之间的沟通，提升工作效率与工作质量 |
+| 9 | [IAM](https://github.com/marmotedu/iam) | 一个基于 Go 语言开发的身份识别与访问管理系统，用于对资源访问进行授权，项目用到了 Go 企业开发的大部分核心技能点，可作为学习 Go 语言积累项目经验的不错项目 |
 
 
 
