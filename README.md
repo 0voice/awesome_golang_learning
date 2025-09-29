@@ -183,10 +183,10 @@ Golang（又称 Go）是由Google于 2009 年推出的静态强类型、编译�
 ### 📺 学习视频
 | No. | address |
 | :--- | :--- |
-| 1 | []() |
-| 2 | []() |
-| 3 | []() |
-| 4 | []() |
+| 1 | [8小时转职Golang工程师(如果你想低成本学习Go语言)](https://www.bilibili.com/video/BV1gf4y1r79E?spm_id_from=333.788.videopod.episodes&vd_source=836f76a8160d2eb8c8ea2397a180536d&p=2) |
+| 2 | [【尚硅谷】Golang入门到实战教程丨一套精通GO语言](https://www.bilibili.com/video/BV1ME411Y71o/?spm_id_from=333.337.search-card.all.click&vd_source=836f76a8160d2eb8c8ea2397a180536d) |
+| 3 | [【2025年新版】Go语言教程_Golang入门实战全套视频教程](https://www.bilibili.com/video/BV1Rm421N7Jy/?spm_id_from=333.337.search-card.all.click&vd_source=836f76a8160d2eb8c8ea2397a180536d) |
+| 4 | [golang零基础入门到精通(Java程序员转行golang开发必看)](https://www.bilibili.com/video/BV1bN4y1Z7BT/?spm_id_from=333.337.search-card.all.click&vd_source=836f76a8160d2eb8c8ea2397a180536d) |
 
 ---
 ### 👥 面试题
