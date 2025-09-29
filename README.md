@@ -716,6 +716,276 @@ func main() {
 
 # 💾 Redis
 
+## 一、简介
+Redis 是一个开源的高性能键值数据库，支持多种数据结构，广泛用于缓存、消息队列、排行榜等场景。Go-Redis（github.com/redis/go-redis）是 Go 语言中最流行的 Redis 客户端之一，支持：  
+- 单机、哨兵（Sentinel）、集群（Cluster）模式
+- 连接池管理
+- 发布 / 订阅
+- 事务与管道（Pipeline）
+- Lua 脚本
+- 分布式锁
+
+本教程基于 go-redis v9，它是目前的稳定版本，API 简洁且类型安全。
+
+## 二、安装
+go-redis 支持最新的两个 Go 版本。您只能在 Go 模块中使用它，因此您必须在开始之前初始化一个 Go 模块，或者将您的代码添加到现有模块中。
+```bash
+go mod init github.com/my/repo
+```
+
+使用 go get 命令安装 go-redis/v9
+```bash
+go get github.com/redis/go-redis/v9
+```
+
+## 三、连接Redis
+3.1 以下示例展示了连接到 Redis 服务器的最简单方法:
+```go
+import (
+	"context"
+	"fmt"
+	"github.com/redis/go-redis/v9"
+)
+
+func main() {    
+    client := redis.NewClient(&redis.Options{
+        Addr:	  "localhost:6379",
+        Password: "", // No password set
+        DB:		  0,  // Use default DB
+        Protocol: 2,  // Connection protocol
+    })
+}
+```
+
+也可以使用连接字符串进行连接:
+```go
+opt, err := redis.ParseURL("redis://<user>:<pass>@localhost:6379/<db>")
+if err != nil {
+	panic(err)
+}
+client := redis.NewClient(opt)
+```
+
+连接后，可以通过存储和检索一个简单的字符串来测试连接:
+```go
+ctx := context.Background()
+
+err := client.Set(ctx, "foo", "bar", 0).Err()
+if err != nil {
+    panic(err)
+}
+
+val, err := client.Get(ctx, "foo").Result()
+if err != nil {
+    panic(err)
+}
+fmt.Println("foo", val)
+```
+
+3.2 哨兵模式
+要连接到由 Redis Sentinel 管理的 Redis 服务器
+```go
+import "github.com/redis/go-redis/v9"
+
+rdb := redis.NewFailoverClient(&redis.FailoverOptions{
+    MasterName:    "mymaster",
+    SentinelAddrs: []string{"127.0.0.1:26379", "127.0.0.1:26380"},
+})
+```
+要连接到 Redis Sentinel 本身
+```go
+import "github.com/redis/go-redis/v9"
+
+sentinel := redis.NewSentinelClient(&redis.Options{
+    Addr: ":9126",
+})
+
+addr, err := sentinel.GetMasterAddrByName(ctx, "master-name").Result()
+```
+3.3 集群模式  
+要连接到 Redis 集群，请使用 `NewClusterClient()`。可以使用 Addrs 选项指定一个或多个集群端点
+```go
+rdb := redis.NewClusterClient(&redis.ClusterOptions{
+    Addrs: []string{
+        "127.0.0.1:7000",
+        "127.0.0.1:7001",
+        "127.0.0.1:7002",
+    },
+})
+```
+3.4 使用 TLS 连接生产环境 Redis
+```go
+// Load client cert
+cert, err := tls.LoadX509KeyPair("redis_user.crt", "redis_user_private.key")
+if err != nil {
+    log.Fatal(err)
+}
+
+// Load CA cert
+caCert, err := os.ReadFile("redis_ca.pem")
+if err != nil {
+    log.Fatal(err)
+}
+caCertPool := x509.NewCertPool()
+caCertPool.AppendCertsFromPEM(caCert)
+
+client := redis.NewClient(&redis.Options{
+    Addr:     "my-redis.cloud.redislabs.com:6379",
+    Username: "default", // use your Redis user. More info https://redis.ac.cn/docs/latest/operate/oss_and_stack/management/security/acl/
+    Password: "secret", // use your Redis password
+    TLSConfig: &tls.Config{
+        MinVersion:   tls.VersionTLS12,
+        Certificates: []tls.Certificate{cert},
+        RootCAs:      caCertPool,
+    },
+})
+
+//send SET command
+err = client.Set(ctx, "foo", "bar", 0).Err()
+if err != nil {
+    panic(err)
+}
+
+//send GET command and print the value
+val, err := client.Get(ctx, "foo").Result()
+if err != nil {
+    panic(err)
+}
+fmt.Println("foo", val)
+```
+---
+## 四、 核心数据类型操作
+4.1 String
+```go
+// 设置值
+err := rdb.Set(ctx, "name", "Alice", 0).Err()
+
+// 获取值
+val, _ := rdb.Get(ctx, "name").Result()
+
+// 自增
+count, _ := rdb.Incr(ctx, "counter").Result()
+```
+
+4.2 Hash
+```go
+// 设置字段
+err := rdb.HSet(ctx, "user:1", "name", "Alice", "age", 20).Err()
+
+// 获取字段
+name, _ := rdb.HGet(ctx, "user:1", "name").Result()
+
+// 获取所有字段
+user, _ := rdb.HGetAll(ctx, "user:1").Result()
+```
+
+4.3 List
+```go
+// 左侧添加
+err := rdb.LPush(ctx, "queue", "task1", "task2").Err()
+
+// 右侧弹出
+task, _ := rdb.RPop(ctx, "queue").Result()
+
+// 获取范围
+elements, _ := rdb.LRange(ctx, "queue", 0, -1).Result()
+```
+
+4.4 Set
+```go
+// 添加元素
+err := rdb.SAdd(ctx, "tags", "go", "redis").Err()
+
+// 获取所有元素
+tags, _ := rdb.SMembers(ctx, "tags").Result()
+
+// 判断元素是否存在
+exists, _ := rdb.SIsMember(ctx, "tags", "go").Result()
+```
+
+4.5 Sorted Set
+```go
+// 添加元素
+err := rdb.ZAdd(ctx, "rank", redis.Z{Score: 90, Member: "Alice"}).Err()
+
+// 获取排名
+members, _ := rdb.ZRange(ctx, "rank", 0, -1).WithScores().Result()
+```
+---
+## 五. 高级功能
+5.1 管道（Pipeline）
+```go
+pipe := rdb.Pipeline()
+pipe.Incr(ctx, "counter1")
+pipe.Incr(ctx, "counter2")
+_, err := pipe.Exec(ctx)
+```
+5.2 事务
+```go
+tx := rdb.Multi()
+tx.Incr(ctx, "counter1")
+tx.Incr(ctx, "counter2")
+_, err := tx.Exec(ctx)
+```
+5.3 发布 / 订阅
+```go
+// 发布
+err := rdb.Publish(ctx, "channel1", "hello").Err()
+
+// 订阅
+pubsub := rdb.Subscribe(ctx, "channel1")
+ch := pubsub.Channel()
+for msg := range ch {
+    fmt.Println(msg.Channel, msg.Payload)
+}
+```
+5.4 分布式锁
+```go
+lock := redis.NewLock(rdb, "lock_key")
+err := lock.Acquire(ctx)
+defer lock.Release(ctx)
+```
+---
+
+## 六、 实战案例
+6.1 缓存示例
+```go
+func GetUser(ctx context.Context, rdb *redis.Client, id string) (User, error) {
+    // 先查缓存
+    data, err := rdb.Get(ctx, "user:"+id).Result()
+    if err == nil {
+        var user User
+        json.Unmarshal([]byte(data), &user)
+        return user, nil
+    }
+
+    // 缓存未命中，查数据库
+    user := queryUserFromDB(id)
+    
+    // 写入缓存
+    jsonData, _ := json.Marshal(user)
+    rdb.SetEx(ctx, "user:"+id, jsonData, 10*time.Minute)
+    
+    return user, nil
+}
+```
+6.2 排行榜
+```go
+// 添加成绩
+rdb.ZAdd(ctx, "rank", redis.Z{Score: 95, Member: "Alice"})
+rdb.ZAdd(ctx, "rank", redis.Z{Score: 88, Member: "Bob"})
+
+// 获取前三名
+result, _ := rdb.ZRevRangeWithScores(ctx, "rank", 0, 2).Result()
+for _, z := range result {
+    fmt.Printf("%s: %.0f\n", z.Member, z.Score)
+}
+```
+参考资料：https://redis.ac.cn/docs/latest/develop/clients/go/transpipe/
+https://redis.golang.ac.cn/guide/ring.html
+
+
+
 ---
 
 ## 🔨 web框架
