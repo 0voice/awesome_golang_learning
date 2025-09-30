@@ -21,13 +21,13 @@
   * [技术文章](#-技术文章)
   * [学习视频](#-学习视频)
   * [面试题](#-面试题)
+* [Web框架](#-Web框架)
+  * [Gin框架](#Gin框架)
+  * [Beego框架](#Beego框架)
 * [相关技术](#-相关技术)
   * [网络基础](#-网络基础)
   * [MySQL](#-MySQL)
   * [Redis](#-Redis)
-* [Web框架](#-Web框架)
-  * [Gin框架](#Gin框架)
-  * [Beego框架](#Beego框架)
 * [项目实战](#-项目实战)
 ---
 
@@ -355,761 +355,6 @@ func main() {
 
 ---
 
-## 🎨 相关技术
-
-### 🌐 网络基础
-#### 一、为什么 Go 开发者需要网络知识  
-Go 语言的强项之一就是网络编程，很多项目直接基于 TCP/UDP/HTTP 协议，比如：
-- Web 后端（HTTP API）
-- 微服务（gRPC、HTTP/2）
-- 中间件（代理、网关、消息队列客户端）
-- 分布式系统（服务发现、负载均衡）
-  
-如果不懂网络基础，就很难理解 Go 网络库的设计原理和运行机制，遇到问题也不知道怎么排查。
-
----
-
-#### 二、Web 开发必备网络理论
-
-**2.1 TCP/IP 四层模型**
-- 网络接口层（ARP、MAC）
-- 网络层（IP 地址、ICMP、路由）
-- 传输层（TCP、UDP）
-- 应用层（HTTP、DNS、WebSocket）
----
-
-**2.2 核心协议详解（★★★★★ 核心）**  
-
- **（1）TCP 协议（Go 网络开发的 "基石"）**
-| 核心特性       | 原理要点                                                                 | Go 中需注意的问题                                           |
-|----------------|--------------------------------------------------------------------------|------------------------------------------------------------|
-| 面向连接       | 三次握手（建立）、四次挥手（断开）                                       | 避免 "半连接"（用`net.Listen`的`Accept`自动处理）            |
-| 可靠传输       | 序列号、确认应答（ACK）、重传机制                                         | 无需手动实现，Go 标准库已封装                               |
-| 粘包 / 拆包    | 原因：TCP 是 "流协议"，无消息边界                                        | 需手动处理（3种方案：固定长度 / 分隔符 / 消息头 + 长度）    |
-| 拥塞控制       | 慢启动→拥塞避免→快速重传→快速恢复                                        | 理解即可，Go 底层自动适配                                   |
-
-**（2）HTTP 协议（Web/API 开发必备）**
-| 核心组成       | 原理要点                                                                 | Go 中对应操作                                               |
-|----------------|--------------------------------------------------------------------------|------------------------------------------------------------|
-| 请求结构       | 请求行（方法 + URL + 版本）→请求头→请求体                                | `http.Request`结构体（`r.Method`/`r.URL`/`r.Body`）          |
-| 响应结构       | 状态行（版本 + 状态码）→响应头→响应体                                    | `http.ResponseWriter`（`w.WriteHeader`/`w.Write`）           |
-| 方法 / 状态码  | 常用方法：GET（查）、POST（增）、PUT（改）、DELETE（删）<br>常用状态码：200（成功）、404（未找到）、500（服务错） | `r.Method`判断请求类型<br>`w.WriteHeader(http.StatusOK)`设置状态码 |
-| 版本差异       | HTTP 1.1（长连接）、HTTP 2（多路复用）、HTTP 3（基于 UDP）                | Go `net/http`默认支持 HTTP 1.1，需扩展库支持 HTTP 2/3       |
-
-**（3）UDP 协议（实时场景补充）**
-| 核心特性       | 原理要点                                                                 | Go 应用场景                                                 |
-|----------------|--------------------------------------------------------------------------|------------------------------------------------------------|
-| 无连接         | 无需握手，直接发数据包                                                   | 视频 / 语音传输、游戏同步、心跳检测                         |
-| 不可靠         | 不保证送达、不保证顺序                                                   | 需上层实现重传（如 RTCP 协议）                              |
-| 轻量快速       | 数据包体积小，延迟低                                                     | 高性能场景（如日志收集）                                   |
-
-
----
-#### 三、相关书籍
-- 《计算机网络（谢希仁）》
-- 《TCP/IP 详解 卷 1：协议》
-- 《HTTP 权威指南》
----
-#### 四、在线资源
-- [Go 标准库 net 包文档](https://pkg.go.dev/net)
-- [Go 标准库 net/http 包文档](https://pkg.go.dev/net/http)
-- [TopGoer 教程/网络编程](http://www.topgoer.com/%E7%BD%91%E7%BB%9C%E7%BC%96%E7%A8%8B/)
----
-
-
-### 🐬 MySQL
-
-#### 一、安装MySQL驱动    
-
-1.1 安装 MySQL  
-首先，确保你的系统中安装了 MySQL 数据库。可以从官网下载安装包进行安装，或者使用包管理器进行安装。  
-
-1.2 安装 Go MySQL 驱动  
-在 Go 中，最常用的 MySQL 驱动是 go-sql-driver/mysql。在终端运行以下命令进行安装：
-```bash
-go get -u github.com/go-sql-driver/mysql
-```
-1.3 配置数据库连接信息  
-在开始编码之前，需要在 MySQL 中创建一个新的数据库和用户，并授予相应的权限。同时，记录下数据库的主机名、端口号、用户名和密码，这些信息将在后续的代码中用于建立连接。
-
----
-
-#### 二、连接MySQL  
-
-在 Go 中，使用 database/sql 包来管理数据库连接。以下是一个简单的示例，展示如何建立连接：
-
-```go
-import (
-    "database/sql"
-    _ "github.com/go-sql-driver/mysql"
-)
-
-dsn := "user:password@tcp(127.0.0.1:3306)/dbname?charset=utf8mb4&parseTime=true&loc=Local"
-db, err := sql.Open("mysql", dsn)
-if err != nil {
-    panic(err)
-}
-defer db.Close()
-
-// 验证连接
-err = db.Ping()
-if err != nil {
-    panic(err)
-}
-```
----
-#### 三、增删改查
-
-一旦连接建立，就可以执行 SQL了： 
-
-3.1 创建表：  
-```go
-_, err := db.Exec(`
-CREATE TABLE IF NOT EXISTS users (
-    id BIGINT PRIMARY KEY AUTO_INCREMENT,
-    name VARCHAR(50) NOT NULL,
-    age INT,
-    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-`)
-```
-3.2 插入数据：
-```go
-res, err := db.Exec("INSERT INTO users(name, age) VALUES (?, ?)", "Alice", 20)
-lastID, _ := res.LastInsertId()  // 获取插入ID
-```
-3.3 查询数据：
-```go
-rows, err := db.Query("SELECT id, name, age FROM users WHERE age > ?", 18)
-defer rows.Close()
-
-for rows.Next() {
-    var id int64
-    var name string
-    var age int
-    rows.Scan(&id, &name, &age)
-    fmt.Printf("ID: %d, Name: %s, Age: %d\n", id, name, age)
-}
-```
-3.4 删除数据：
-```go
-res, err := db.Exec("DELETE FROM users WHERE name=?", "Alice")
-rowsAffected, _ := res.RowsAffected()
-```
----
-#### 四、事务处理
-
-在处理涉及多个数据库操作的业务逻辑时，事务是保证数据一致性的关键。以下是一个简单的事务处理示例：  
-
-```go
-tx, err := db.Begin()
-if err != nil {
-    panic(err)
-}
-
-_, err = tx.Exec("INSERT INTO users(name, age) VALUES (?, ?)", "Bob", 25)
-if err != nil {
-    tx.Rollback()
-    panic(err)
-}
-
-err = tx.Commit()
-if err != nil {
-    panic(err)
-}
-```
----
-#### 五、连接池的使用
-
-5.1 连接池的重要性：  
-在高并发的场景下，建立和关闭数据库连接的开销是非常大的。使用连接池可以复用数据库连接，提高性能。  
-
-5.2 连接池配置：
-```go
-db.SetMaxOpenConns(100)           // 最大打开连接数
-db.SetMaxIdleConns(20)            // 最大空闲连接数
-db.SetConnMaxLifetime(time.Hour)  // 连接最大存活时间
-db.SetConnMaxIdleTime(30*time.Minute) // 连接最大空闲时间
-```
----
-
-### GORM的使用   
-作为 Go 语言中最受欢迎的对象关系映射（ORM）库，GORM 提供了一套简洁且功能强大的 API，极大地简化了数据库操作。  
-
-#### 一、GORM 简介
-GORM 是用 Go 语言编写的 ORM 库，它基于 httprouter 和 Go 标准库构建。其主要特点包括：  
-- 简洁易用：通过定义结构体来映射数据库表，简化数据操作；
-- 功能全面：支持 CRUD、事务、预加载、关联关系、自动迁移等常见功能；
-- 扩展性强：内置钩子函数、插件机制以及对多种数据库（MySQL、PostgreSQL、SQLite、SQL Server 等）的支持；
-- 性能优秀：经过大量优化，能够在高并发场景下保持稳定性能。
-
-参考:[GORM官方文档](https://gorm.io/zh_CN/docs/index.html)  
-
----
-#### 二、环境搭建与安装
-在使用 GORM 之前，首先需要安装 Go 环境，然后通过 ```go get``` 命令安装 GORM 及所需数据库驱动。例如，如果你使用 MySQL 数据库，在终端运行以下命令安装：
-```bash
-# 安装 GORM 框架
-go get -u gorm.io/gorm
-
-# 安装 MySQL 驱动
-go get -u gorm.io/driver/mysql
-```
-##### ⚠️ ```gorm.io/driver/mysql``` 是 GORM v2 推荐的 MySQL 驱动，支持 database/sql 接口。  
-
-
-安装完成后，在项目代码中导入相关包：
-```go
-import (
-    "gorm.io/gorm"
-    "gorm.io/driver/mysql"
-)
-```
----
-#### 三、连接数据库
-
-GORM 通过 ```gorm.Open()``` 来创建数据库连接。我们需要提供 DSN（Data Source Name） 告诉 GORM 如何连接 MySQL。
-```go
-package main
-
-import (
-  "gorm.io/driver/mysql"
-  "gorm.io/gorm"
-)
-
-func main() {
-  // DSN 格式：user:password@tcp(IP:端口)/数据库名?参数
-  dsn := "root:123456@tcp(127.0.0.1:3306)/testdb?charset=utf8mb4&parseTime=True&loc=Local"
-  
-  // 打开数据库连接
-  db, err := gorm.Open(mysql.Open(dsn), &gorm.Config{})
-  if err != nil {
-    panic("failed to connect database")
-  }
-
-  // 配置连接池
-  sqlDB, _ := db.DB()
-  sqlDB.SetMaxOpenConns(100) // 最大打开连接数
-  sqlDB.SetMaxIdleConns(20)  // 最大空闲连接数
-  sqlDB.SetConnMaxLifetime(time.Hour) // 连接最大存活时间
-}
-```
----
-
-#### 四、模型定义（Model） 
-在 GORM 中，模型就是一个 Go 结构体，每个字段对应数据库表的一列。
-```go
-type User struct {
-  gorm.Model           // 内置字段：ID, CreatedAt, UpdatedAt, DeletedAt
-  Name       string
-  Age        int
-  Email      string `gorm:"unique"` // Email 唯一
-  Password   string
-}
-```
-```gorm.Model``` 是 GORM 提供的基础模型结构体，帮你自动添加：
-- ID：主键
-- CreatedAt：创建时间
-- UpdatedAt：更新时间
-- DeletedAt：删除时间（用于软删除）
----
-#### 五、数据库迁移（Auto Migration）  
-GORM 提供 ```AutoMigrate()``` 方法，可以根据模型自动创建或更新数据库表结构。  
-```go
-// 自动迁移
-db.AutoMigrate(&User{})
-```
-特点：  
-- 只会新增字段和索引，不会删除已有字段或索引
-- 非常适合在开发阶段快速同步表结构
----
-#### 六、CRUD 操作   
-6.1 创建（Create）
-使用 ```db.Create() ```插入一条记录到数据库。
-```go
-user := User{Name: "Alice", Age: 20, Email: "alice@example.com", Password: "123456"}
-result := db.Create(&user)
-
-fmt.Println(user.ID)             // 插入后ID会自动回填
-fmt.Println(result.Error)        // 错误信息
-fmt.Println(result.RowsAffected) // 影响行数
-```
-6.2 查询（Read）
-GORM 提供了多种查询方法，最常用的是：
-- ```First()```：查询第一条记录
-- ```Find()```：查询多条记录
-- ```Where()```：添加条件
-```go
-var user User
-// 根据主键查询
-db.First(&user, 1) // 查询 ID=1 的用户
-fmt.Printf("%+v\n", user)
-
-// 条件查询
-var users []User
-db.Where("age > ?", 18).Find(&users)
-
-// 模糊查询
-db.Where("name LIKE ?", "%li%").Find(&users)
-
-// 排序
-db.Order("age desc").Find(&users)
-```
-6.3 更新（Update）
-GORM 提供```Update()（单字段```）和```Updates()（多字段）```两种方法。
-```go
-// 更新单个字段
-db.Model(&User{ID: 1}).Update("Age", 21)
-
-// 更新多个字段
-db.Model(&User{ID: 1}).Updates(User{Name: "Alice Updated", Age: 22})
-
-// 更新选定字段（忽略零值）
-db.Model(&User{ID: 1}).Select("Name").Updates(User{Name: "Alice Selected", Age: 0})
-```
-6.4 删除（Delete）
-默认是软删除（更新 ```DeletedAt``` 字段），不会真正删除数据。
-```go
-// 软删除
-db.Delete(&User{}, 1)
-
-// 物理删除（真正删除数据）
-db.Unscoped().Delete(&User{}, 1)
-```
----
-#### 七、事务处理
-GORM 支持数据库事务，可以保证一系列操作的原子性。  
-```go
-tx := db.Begin()
-if tx.Error != nil {
-  panic(tx.Error)
-}
-
-if err := tx.Create(&User{Name: "Bob", Age: 25}).Error; err != nil {
-  tx.Rollback()
-  panic(err)
-}
-
-if err := tx.Create(&User{Name: "Charlie", Age: 30}).Error; err != nil {
-  tx.Rollback()
-  panic(err)
-}
-
-tx.Commit()
-```
----
-#### 八、关联关系
-GORM 支持常见的关联关系：
-- Has One（一对一）
-- Has Many（一对多）
-- Belongs To（属于）
-- Many To Many（多对多）
-一对多示例：
-```go
-type User struct {
-  gorm.Model
-  Name  string
-  Posts []Post // 一个用户有多篇文章
-}
-
-type Post struct {
-  gorm.Model
-  Title  string
-  UserID uint // 外键
-}
-
-// 创建用户和文章
-db.Create(&User{
-  Name: "Alice",
-  Posts: []Post{
-    {Title: "Post 1"},
-    {Title: "Post 2"},
-  },
-})
-
-// 查询时预加载关联
-var user User
-db.Preload("Posts").First(&user, 1)
-```
----
-#### 九、钩子函数（Hooks）  
-Hooks 是在创建、更新、删除等操作前后自动调用的函数，方便你在数据变更时做额外逻辑（如数据校验、密码加密）。
-```go
-func (u *User) BeforeCreate(tx *gorm.DB) error {
-  fmt.Println("Before Create")
-  return nil
-}
-
-func (u *User) AfterCreate(tx *gorm.DB) error {
-  fmt.Println("After Create")
-  return nil
-}
-```
----
-#### 十、常见问题与最佳实践
-10.1 字段标签（Tags）  
-```go
-type User struct {
-  gorm.Model
-  Email string `gorm:"unique;not null"`
-  Age   int    `gorm:"default:18"`
-}
-```
-10.2 零值问题  
-- 默认 GORM 会忽略零值字段更新
-- 解决方法：db.Model(...).Select("字段名").Updates(...)
-
-10.3 软删除  
-- 带 gorm.DeletedAt 字段的模型默认启用软删除
-- 使用 Unscoped() 查询所有记录（包括已删除的）
-  
-10.4 性能优化  
-- 批量插入：db.CreateInBatches(users, 100)
-- 避免 N+1 查询：对于复杂关联查询，预加载（Preload）可以减少 N+1 查询问题，但在数据量较大时要注意性能
-  
-10.5 批量操作  
-- 尽可能使用批量插入和更新，减少数据库连接次数；
-
-#### 十一、实战案例
-下面是一个简单的示例，展示如何使用 GORM 完成一个用户的 CRUD 操作，并处理一对多关联关系：
-```go
-package main
-
-import (
-    "fmt"
-    "log"
-    "time"
-
-    "gorm.io/driver/mysql"
-    "gorm.io/gorm"
-)
-
-type User struct {
-    ID        uint      `gorm:"primaryKey"`
-    Name      string    `gorm:"size:100;not null"`
-    Age       int       `gorm:"not null"`
-    Email     string    `gorm:"unique;not null"`
-    Orders    []Order   // 一对多关联关系
-    CreatedAt time.Time
-}
-
-type Order struct {
-    ID     uint   `gorm:"primaryKey"`
-    Item   string `gorm:"not null"`
-    UserID uint
-}
-
-func main() {
-    dsn := "username:password@tcp(127.0.0.1:3306)/dbname?charset=utf8mb4&parseTime=True&loc=Local"
-    db, err := gorm.Open(mysql.Open(dsn), &gorm.Config{})
-    if err != nil {
-        log.Fatal("连接数据库失败：", err)
-    }
-
-    // 自动迁移，确保数据库表结构和模型同步
-    db.AutoMigrate(&User{}, &Order{})
-
-    // 创建用户及关联订单
-    user := User{
-        Name:  "Alice",
-        Age:   28,
-        Email: "alice@example.com",
-        Orders: []Order{
-            {Item: "Laptop"},
-            {Item: "Smartphone"},
-        },
-    }
-    db.Create(&user)
-
-    // 查询用户及其订单
-    var u User
-    db.Preload("Orders").First(&u, user.ID)
-    fmt.Printf("用户：%v\n订单：%v\n", u, u.Orders)
-
-    // 更新用户数据
-    db.Model(&u).Update("Age", 29)
-
-    // 删除用户记录（级联删除订单需要手动处理或设置外键约束）
-    db.Delete(&u)
-}
-```
-在上述示例中，我们通过自动迁移确保数据库表结构与模型保持一致，并实现了用户和订单的创建、查询、更新和删除操作。通过 Preload 方法，我们还演示了如何加载关联数据。
-
----
-
-### 💾 Redis
-
-#### 一、简介
-Redis 是一个开源的高性能键值数据库，支持多种数据结构，广泛用于缓存、消息队列、排行榜等场景。Go-Redis（github.com/redis/go-redis）是 Go 语言中最流行的 Redis 客户端之一，支持：  
-- 单机、哨兵（Sentinel）、集群（Cluster）模式
-- 连接池管理
-- 发布 / 订阅
-- 事务与管道（Pipeline）
-- Lua 脚本
-- 分布式锁
-
-本教程基于 go-redis v9，它是目前的稳定版本，API 简洁且类型安全。
-
-#### 二、安装
-go-redis 支持最新的两个 Go 版本。您只能在 Go 模块中使用它，因此您必须在开始之前初始化一个 Go 模块，或者将您的代码添加到现有模块中。
-```bash
-go mod init github.com/my/repo
-```
-
-使用 go get 命令安装 go-redis/v9
-```bash
-go get github.com/redis/go-redis/v9
-```
-
-#### 三、连接Redis
-3.1 以下示例展示了连接到 Redis 服务器的最简单方法:
-```go
-import (
-	"context"
-	"fmt"
-	"github.com/redis/go-redis/v9"
-)
-
-func main() {    
-    client := redis.NewClient(&redis.Options{
-        Addr:	  "localhost:6379",
-        Password: "", // No password set
-        DB:		  0,  // Use default DB
-        Protocol: 2,  // Connection protocol
-    })
-}
-```
-
-也可以使用连接字符串进行连接:
-```go
-opt, err := redis.ParseURL("redis://<user>:<pass>@localhost:6379/<db>")
-if err != nil {
-	panic(err)
-}
-client := redis.NewClient(opt)
-```
-
-连接后，可以通过存储和检索一个简单的字符串来测试连接:
-```go
-ctx := context.Background()
-
-err := client.Set(ctx, "foo", "bar", 0).Err()
-if err != nil {
-    panic(err)
-}
-
-val, err := client.Get(ctx, "foo").Result()
-if err != nil {
-    panic(err)
-}
-fmt.Println("foo", val)
-```
-
-**3.2 哨兵模式**    
-要连接到由 Redis Sentinel 管理的 Redis 服务器
-```go
-import "github.com/redis/go-redis/v9"
-
-rdb := redis.NewFailoverClient(&redis.FailoverOptions{
-    MasterName:    "mymaster",
-    SentinelAddrs: []string{"127.0.0.1:26379", "127.0.0.1:26380"},
-})
-```
-要连接到 Redis Sentinel 本身
-```go
-import "github.com/redis/go-redis/v9"
-
-sentinel := redis.NewSentinelClient(&redis.Options{
-    Addr: ":9126",
-})
-
-addr, err := sentinel.GetMasterAddrByName(ctx, "master-name").Result()
-```
-**3.3 集群模式**      
-要连接到 Redis 集群，请使用 `NewClusterClient()`。可以使用 Addrs 选项指定一个或多个集群端点
-```go
-rdb := redis.NewClusterClient(&redis.ClusterOptions{
-    Addrs: []string{
-        "127.0.0.1:7000",
-        "127.0.0.1:7001",
-        "127.0.0.1:7002",
-    },
-})
-```
-**3.4 使用 TLS 连接生产环境 Redis**
-```go
-// Load client cert
-cert, err := tls.LoadX509KeyPair("redis_user.crt", "redis_user_private.key")
-if err != nil {
-    log.Fatal(err)
-}
-
-// Load CA cert
-caCert, err := os.ReadFile("redis_ca.pem")
-if err != nil {
-    log.Fatal(err)
-}
-caCertPool := x509.NewCertPool()
-caCertPool.AppendCertsFromPEM(caCert)
-
-client := redis.NewClient(&redis.Options{
-    Addr:     "my-redis.cloud.redislabs.com:6379",
-    Username: "default", // use your Redis user. More info https://redis.ac.cn/docs/latest/operate/oss_and_stack/management/security/acl/
-    Password: "secret", // use your Redis password
-    TLSConfig: &tls.Config{
-        MinVersion:   tls.VersionTLS12,
-        Certificates: []tls.Certificate{cert},
-        RootCAs:      caCertPool,
-    },
-})
-
-//send SET command
-err = client.Set(ctx, "foo", "bar", 0).Err()
-if err != nil {
-    panic(err)
-}
-
-//send GET command and print the value
-val, err := client.Get(ctx, "foo").Result()
-if err != nil {
-    panic(err)
-}
-fmt.Println("foo", val)
-```
----
-#### 四、 核心数据类型操作
-**4.1 String**
-```go
-// 设置值
-err := rdb.Set(ctx, "name", "Alice", 0).Err()
-
-// 获取值
-val, _ := rdb.Get(ctx, "name").Result()
-
-// 自增
-count, _ := rdb.Incr(ctx, "counter").Result()
-```
-
-**4.2 Hash**
-```go
-// 设置字段
-err := rdb.HSet(ctx, "user:1", "name", "Alice", "age", 20).Err()
-
-// 获取字段
-name, _ := rdb.HGet(ctx, "user:1", "name").Result()
-
-// 获取所有字段
-user, _ := rdb.HGetAll(ctx, "user:1").Result()
-```
-
-**4.3 List**
-```go
-// 左侧添加
-err := rdb.LPush(ctx, "queue", "task1", "task2").Err()
-
-// 右侧弹出
-task, _ := rdb.RPop(ctx, "queue").Result()
-
-// 获取范围
-elements, _ := rdb.LRange(ctx, "queue", 0, -1).Result()
-```
-
-**4.4 Set**
-```go
-// 添加元素
-err := rdb.SAdd(ctx, "tags", "go", "redis").Err()
-
-// 获取所有元素
-tags, _ := rdb.SMembers(ctx, "tags").Result()
-
-// 判断元素是否存在
-exists, _ := rdb.SIsMember(ctx, "tags", "go").Result()
-```
-
-**4.5 Sorted Set**
-```go
-// 添加元素
-err := rdb.ZAdd(ctx, "rank", redis.Z{Score: 90, Member: "Alice"}).Err()
-
-// 获取排名
-members, _ := rdb.ZRange(ctx, "rank", 0, -1).WithScores().Result()
-```
----
-#### 五. 高级功能
-**5.1 管道（Pipeline）**
-```go
-pipe := rdb.Pipeline()
-pipe.Incr(ctx, "counter1")
-pipe.Incr(ctx, "counter2")
-_, err := pipe.Exec(ctx)
-```
-**5.2 事务**
-```go
-tx := rdb.Multi()
-tx.Incr(ctx, "counter1")
-tx.Incr(ctx, "counter2")
-_, err := tx.Exec(ctx)
-```
-**5.3 发布 / 订阅**
-```go
-// 发布
-err := rdb.Publish(ctx, "channel1", "hello").Err()
-
-// 订阅
-pubsub := rdb.Subscribe(ctx, "channel1")
-ch := pubsub.Channel()
-for msg := range ch {
-    fmt.Println(msg.Channel, msg.Payload)
-}
-```
-**5.4 分布式锁**
-```go
-lock := redis.NewLock(rdb, "lock_key")
-err := lock.Acquire(ctx)
-defer lock.Release(ctx)
-```
----
-
-#### 六、 实战案例
-**6.1 缓存示例**
-```go
-func GetUser(ctx context.Context, rdb *redis.Client, id string) (User, error) {
-    // 先查缓存
-    data, err := rdb.Get(ctx, "user:"+id).Result()
-    if err == nil {
-        var user User
-        json.Unmarshal([]byte(data), &user)
-        return user, nil
-    }
-
-    // 缓存未命中，查数据库
-    user := queryUserFromDB(id)
-    
-    // 写入缓存
-    jsonData, _ := json.Marshal(user)
-    rdb.SetEx(ctx, "user:"+id, jsonData, 10*time.Minute)
-    
-    return user, nil
-}
-```
-**6.2 排行榜**
-```go
-// 添加成绩
-rdb.ZAdd(ctx, "rank", redis.Z{Score: 95, Member: "Alice"})
-rdb.ZAdd(ctx, "rank", redis.Z{Score: 88, Member: "Bob"})
-
-// 获取前三名
-result, _ := rdb.ZRevRangeWithScores(ctx, "rank", 0, 2).Result()
-for _, z := range result {
-    fmt.Printf("%s: %.0f\n", z.Member, z.Score)
-}
-```
-参考资料：https://redis.ac.cn/docs/latest/develop/clients/go/transpipe/
-https://redis.golang.ac.cn/guide/ring.html
-
-
-
----
 
 ## 🔨 web框架
 ### Gin框架
@@ -1823,6 +1068,760 @@ func (c *UserAPIController) Delete() {
 }
 ```
 参考资料：http://www.topgoer.cn/docs/beegozhongwenwendang/beegozhongwenwendang-1c5087bb5qpst
+
+---
+## 🎨 相关技术
+
+### 🌐 网络基础
+#### 一、为什么 Go 开发者需要网络知识  
+Go 语言的强项之一就是网络编程，很多项目直接基于 TCP/UDP/HTTP 协议，比如：
+- Web 后端（HTTP API）
+- 微服务（gRPC、HTTP/2）
+- 中间件（代理、网关、消息队列客户端）
+- 分布式系统（服务发现、负载均衡）
+  
+如果不懂网络基础，就很难理解 Go 网络库的设计原理和运行机制，遇到问题也不知道怎么排查。
+
+---
+
+#### 二、Web 开发必备网络理论
+
+**2.1 TCP/IP 四层模型**
+- 网络接口层（ARP、MAC）
+- 网络层（IP 地址、ICMP、路由）
+- 传输层（TCP、UDP）
+- 应用层（HTTP、DNS、WebSocket）
+---
+
+**2.2 核心协议详解（★★★★★ 核心）**  
+
+ **（1）TCP 协议（Go 网络开发的 "基石"）**
+| 核心特性       | 原理要点                                                                 | Go 中需注意的问题                                           |
+|----------------|--------------------------------------------------------------------------|------------------------------------------------------------|
+| 面向连接       | 三次握手（建立）、四次挥手（断开）                                       | 避免 "半连接"（用`net.Listen`的`Accept`自动处理）            |
+| 可靠传输       | 序列号、确认应答（ACK）、重传机制                                         | 无需手动实现，Go 标准库已封装                               |
+| 粘包 / 拆包    | 原因：TCP 是 "流协议"，无消息边界                                        | 需手动处理（3种方案：固定长度 / 分隔符 / 消息头 + 长度）    |
+| 拥塞控制       | 慢启动→拥塞避免→快速重传→快速恢复                                        | 理解即可，Go 底层自动适配                                   |
+
+**（2）HTTP 协议（Web/API 开发必备）**
+| 核心组成       | 原理要点                                                                 | Go 中对应操作                                               |
+|----------------|--------------------------------------------------------------------------|------------------------------------------------------------|
+| 请求结构       | 请求行（方法 + URL + 版本）→请求头→请求体                                | `http.Request`结构体（`r.Method`/`r.URL`/`r.Body`）          |
+| 响应结构       | 状态行（版本 + 状态码）→响应头→响应体                                    | `http.ResponseWriter`（`w.WriteHeader`/`w.Write`）           |
+| 方法 / 状态码  | 常用方法：GET（查）、POST（增）、PUT（改）、DELETE（删）<br>常用状态码：200（成功）、404（未找到）、500（服务错） | `r.Method`判断请求类型<br>`w.WriteHeader(http.StatusOK)`设置状态码 |
+| 版本差异       | HTTP 1.1（长连接）、HTTP 2（多路复用）、HTTP 3（基于 UDP）                | Go `net/http`默认支持 HTTP 1.1，需扩展库支持 HTTP 2/3       |
+
+**（3）UDP 协议（实时场景补充）**
+| 核心特性       | 原理要点                                                                 | Go 应用场景                                                 |
+|----------------|--------------------------------------------------------------------------|------------------------------------------------------------|
+| 无连接         | 无需握手，直接发数据包                                                   | 视频 / 语音传输、游戏同步、心跳检测                         |
+| 不可靠         | 不保证送达、不保证顺序                                                   | 需上层实现重传（如 RTCP 协议）                              |
+| 轻量快速       | 数据包体积小，延迟低                                                     | 高性能场景（如日志收集）                                   |
+
+
+---
+#### 三、相关书籍
+- 《计算机网络（谢希仁）》
+- 《TCP/IP 详解 卷 1：协议》
+- 《HTTP 权威指南》
+---
+#### 四、在线资源
+- [Go 标准库 net 包文档](https://pkg.go.dev/net)
+- [Go 标准库 net/http 包文档](https://pkg.go.dev/net/http)
+- [TopGoer 教程/网络编程](http://www.topgoer.com/%E7%BD%91%E7%BB%9C%E7%BC%96%E7%A8%8B/)
+---
+
+
+### 🐬 MySQL
+
+#### 一、安装MySQL驱动    
+
+1.1 安装 MySQL  
+首先，确保你的系统中安装了 MySQL 数据库。可以从官网下载安装包进行安装，或者使用包管理器进行安装。  
+
+1.2 安装 Go MySQL 驱动  
+在 Go 中，最常用的 MySQL 驱动是 go-sql-driver/mysql。在终端运行以下命令进行安装：
+```bash
+go get -u github.com/go-sql-driver/mysql
+```
+1.3 配置数据库连接信息  
+在开始编码之前，需要在 MySQL 中创建一个新的数据库和用户，并授予相应的权限。同时，记录下数据库的主机名、端口号、用户名和密码，这些信息将在后续的代码中用于建立连接。
+
+---
+
+#### 二、连接MySQL  
+
+在 Go 中，使用 database/sql 包来管理数据库连接。以下是一个简单的示例，展示如何建立连接：
+
+```go
+import (
+    "database/sql"
+    _ "github.com/go-sql-driver/mysql"
+)
+
+dsn := "user:password@tcp(127.0.0.1:3306)/dbname?charset=utf8mb4&parseTime=true&loc=Local"
+db, err := sql.Open("mysql", dsn)
+if err != nil {
+    panic(err)
+}
+defer db.Close()
+
+// 验证连接
+err = db.Ping()
+if err != nil {
+    panic(err)
+}
+```
+---
+#### 三、增删改查
+
+一旦连接建立，就可以执行 SQL了： 
+
+3.1 创建表：  
+```go
+_, err := db.Exec(`
+CREATE TABLE IF NOT EXISTS users (
+    id BIGINT PRIMARY KEY AUTO_INCREMENT,
+    name VARCHAR(50) NOT NULL,
+    age INT,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+`)
+```
+3.2 插入数据：
+```go
+res, err := db.Exec("INSERT INTO users(name, age) VALUES (?, ?)", "Alice", 20)
+lastID, _ := res.LastInsertId()  // 获取插入ID
+```
+3.3 查询数据：
+```go
+rows, err := db.Query("SELECT id, name, age FROM users WHERE age > ?", 18)
+defer rows.Close()
+
+for rows.Next() {
+    var id int64
+    var name string
+    var age int
+    rows.Scan(&id, &name, &age)
+    fmt.Printf("ID: %d, Name: %s, Age: %d\n", id, name, age)
+}
+```
+3.4 删除数据：
+```go
+res, err := db.Exec("DELETE FROM users WHERE name=?", "Alice")
+rowsAffected, _ := res.RowsAffected()
+```
+---
+#### 四、事务处理
+
+在处理涉及多个数据库操作的业务逻辑时，事务是保证数据一致性的关键。以下是一个简单的事务处理示例：  
+
+```go
+tx, err := db.Begin()
+if err != nil {
+    panic(err)
+}
+
+_, err = tx.Exec("INSERT INTO users(name, age) VALUES (?, ?)", "Bob", 25)
+if err != nil {
+    tx.Rollback()
+    panic(err)
+}
+
+err = tx.Commit()
+if err != nil {
+    panic(err)
+}
+```
+---
+#### 五、连接池的使用
+
+5.1 连接池的重要性：  
+在高并发的场景下，建立和关闭数据库连接的开销是非常大的。使用连接池可以复用数据库连接，提高性能。  
+
+5.2 连接池配置：
+```go
+db.SetMaxOpenConns(100)           // 最大打开连接数
+db.SetMaxIdleConns(20)            // 最大空闲连接数
+db.SetConnMaxLifetime(time.Hour)  // 连接最大存活时间
+db.SetConnMaxIdleTime(30*time.Minute) // 连接最大空闲时间
+```
+---
+
+### GORM的使用   
+作为 Go 语言中最受欢迎的对象关系映射（ORM）库，GORM 提供了一套简洁且功能强大的 API，极大地简化了数据库操作。  
+
+#### 一、GORM 简介
+GORM 是用 Go 语言编写的 ORM 库，它基于 httprouter 和 Go 标准库构建。其主要特点包括：  
+- 简洁易用：通过定义结构体来映射数据库表，简化数据操作；
+- 功能全面：支持 CRUD、事务、预加载、关联关系、自动迁移等常见功能；
+- 扩展性强：内置钩子函数、插件机制以及对多种数据库（MySQL、PostgreSQL、SQLite、SQL Server 等）的支持；
+- 性能优秀：经过大量优化，能够在高并发场景下保持稳定性能。
+
+参考:[GORM官方文档](https://gorm.io/zh_CN/docs/index.html)  
+
+---
+#### 二、环境搭建与安装
+在使用 GORM 之前，首先需要安装 Go 环境，然后通过 ```go get``` 命令安装 GORM 及所需数据库驱动。例如，如果你使用 MySQL 数据库，在终端运行以下命令安装：
+
+```bash
+# 安装 MySQL 驱动
+go get -u gorm.io/driver/mysql
+
+# 安装 GORM 框架
+go get -u gorm.io/gorm
+```
+##### ⚠️ ```gorm.io/driver/mysql``` 是 GORM v2 推荐的 MySQL 驱动，支持 database/sql 接口。  
+
+
+安装完成后，在项目代码中导入相关包：
+```go
+import (
+    "gorm.io/gorm"
+    "gorm.io/driver/mysql"
+)
+```
+---
+#### 三、连接数据库
+
+GORM 通过 ```gorm.Open()``` 来创建数据库连接。我们需要提供 DSN（Data Source Name） 告诉 GORM 如何连接 MySQL。
+```go
+package main
+
+import (
+  "gorm.io/driver/mysql"
+  "gorm.io/gorm"
+)
+
+func main() {
+  // DSN 格式：user:password@tcp(IP:端口)/数据库名?参数
+  dsn := "root:123456@tcp(127.0.0.1:3306)/testdb?charset=utf8mb4&parseTime=True&loc=Local"
+  
+  // 打开数据库连接
+  db, err := gorm.Open(mysql.Open(dsn), &gorm.Config{})
+  if err != nil {
+    panic("failed to connect database")
+  }
+
+  // 配置连接池
+  sqlDB, _ := db.DB()
+  sqlDB.SetMaxOpenConns(100) // 最大打开连接数
+  sqlDB.SetMaxIdleConns(20)  // 最大空闲连接数
+  sqlDB.SetConnMaxLifetime(time.Hour) // 连接最大存活时间
+}
+```
+---
+
+#### 四、模型定义（Model） 
+在 GORM 中，模型就是一个 Go 结构体，每个字段对应数据库表的一列。
+```go
+type User struct {
+  gorm.Model           // 内置字段：ID, CreatedAt, UpdatedAt, DeletedAt
+  Name       string
+  Age        int
+  Email      string `gorm:"unique"` // Email 唯一
+  Password   string
+}
+```
+```gorm.Model``` 是 GORM 提供的基础模型结构体，帮你自动添加：
+- ID：主键
+- CreatedAt：创建时间
+- UpdatedAt：更新时间
+- DeletedAt：删除时间（用于软删除）
+---
+#### 五、数据库迁移（Auto Migration）  
+GORM 提供 ```AutoMigrate()``` 方法，可以根据模型自动创建或更新数据库表结构。  
+```go
+// 自动迁移
+db.AutoMigrate(&User{})
+```
+特点：  
+- 只会新增字段和索引，不会删除已有字段或索引
+- 非常适合在开发阶段快速同步表结构
+---
+#### 六、CRUD 操作   
+6.1 创建（Create）
+使用 ```db.Create() ```插入一条记录到数据库。
+```go
+user := User{Name: "Alice", Age: 20, Email: "alice@example.com", Password: "123456"}
+result := db.Create(&user)
+
+fmt.Println(user.ID)             // 插入后ID会自动回填
+fmt.Println(result.Error)        // 错误信息
+fmt.Println(result.RowsAffected) // 影响行数
+```
+6.2 查询（Read）
+GORM 提供了多种查询方法，最常用的是：
+- ```First()```：查询第一条记录
+- ```Find()```：查询多条记录
+- ```Where()```：添加条件
+```go
+var user User
+// 根据主键查询
+db.First(&user, 1) // 查询 ID=1 的用户
+fmt.Printf("%+v\n", user)
+
+// 条件查询
+var users []User
+db.Where("age > ?", 18).Find(&users)
+
+// 模糊查询
+db.Where("name LIKE ?", "%li%").Find(&users)
+
+// 排序
+db.Order("age desc").Find(&users)
+```
+6.3 更新（Update）
+GORM 提供```Update()（单字段```）和```Updates()（多字段）```两种方法。
+```go
+// 更新单个字段
+db.Model(&User{ID: 1}).Update("Age", 21)
+
+// 更新多个字段
+db.Model(&User{ID: 1}).Updates(User{Name: "Alice Updated", Age: 22})
+
+// 更新选定字段（忽略零值）
+db.Model(&User{ID: 1}).Select("Name").Updates(User{Name: "Alice Selected", Age: 0})
+```
+6.4 删除（Delete）
+默认是软删除（更新 ```DeletedAt``` 字段），不会真正删除数据。
+```go
+// 软删除
+db.Delete(&User{}, 1)
+
+// 物理删除（真正删除数据）
+db.Unscoped().Delete(&User{}, 1)
+```
+---
+#### 七、事务处理
+GORM 支持数据库事务，可以保证一系列操作的原子性。  
+```go
+tx := db.Begin()
+if tx.Error != nil {
+  panic(tx.Error)
+}
+
+if err := tx.Create(&User{Name: "Bob", Age: 25}).Error; err != nil {
+  tx.Rollback()
+  panic(err)
+}
+
+if err := tx.Create(&User{Name: "Charlie", Age: 30}).Error; err != nil {
+  tx.Rollback()
+  panic(err)
+}
+
+tx.Commit()
+```
+---
+#### 八、关联关系
+GORM 支持常见的关联关系：
+- Has One（一对一）
+- Has Many（一对多）
+- Belongs To（属于）
+- Many To Many（多对多）
+一对多示例：
+```go
+type User struct {
+  gorm.Model
+  Name  string
+  Posts []Post // 一个用户有多篇文章
+}
+
+type Post struct {
+  gorm.Model
+  Title  string
+  UserID uint // 外键
+}
+
+// 创建用户和文章
+db.Create(&User{
+  Name: "Alice",
+  Posts: []Post{
+    {Title: "Post 1"},
+    {Title: "Post 2"},
+  },
+})
+
+// 查询时预加载关联
+var user User
+db.Preload("Posts").First(&user, 1)
+```
+---
+#### 九、钩子函数（Hooks）  
+Hooks 是在创建、更新、删除等操作前后自动调用的函数，方便你在数据变更时做额外逻辑（如数据校验、密码加密）。
+```go
+func (u *User) BeforeCreate(tx *gorm.DB) error {
+  fmt.Println("Before Create")
+  return nil
+}
+
+func (u *User) AfterCreate(tx *gorm.DB) error {
+  fmt.Println("After Create")
+  return nil
+}
+```
+---
+#### 十、常见问题与最佳实践
+10.1 字段标签（Tags）  
+```go
+type User struct {
+  gorm.Model
+  Email string `gorm:"unique;not null"`
+  Age   int    `gorm:"default:18"`
+}
+```
+10.2 零值问题  
+- 默认 GORM 会忽略零值字段更新
+- 解决方法：db.Model(...).Select("字段名").Updates(...)
+
+10.3 软删除  
+- 带 gorm.DeletedAt 字段的模型默认启用软删除
+- 使用 Unscoped() 查询所有记录（包括已删除的）
+  
+10.4 性能优化  
+- 批量插入：db.CreateInBatches(users, 100)
+- 避免 N+1 查询：对于复杂关联查询，预加载（Preload）可以减少 N+1 查询问题，但在数据量较大时要注意性能
+  
+10.5 批量操作  
+- 尽可能使用批量插入和更新，减少数据库连接次数；
+
+#### 十一、实战案例
+下面是一个简单的示例，展示如何使用 GORM 完成一个用户的 CRUD 操作，并处理一对多关联关系：
+```go
+package main
+
+import (
+    "fmt"
+    "log"
+    "time"
+
+    "gorm.io/driver/mysql"
+    "gorm.io/gorm"
+)
+
+type User struct {
+    ID        uint      `gorm:"primaryKey"`
+    Name      string    `gorm:"size:100;not null"`
+    Age       int       `gorm:"not null"`
+    Email     string    `gorm:"unique;not null"`
+    Orders    []Order   // 一对多关联关系
+    CreatedAt time.Time
+}
+
+type Order struct {
+    ID     uint   `gorm:"primaryKey"`
+    Item   string `gorm:"not null"`
+    UserID uint
+}
+
+func main() {
+    dsn := "username:password@tcp(127.0.0.1:3306)/dbname?charset=utf8mb4&parseTime=True&loc=Local"
+    db, err := gorm.Open(mysql.Open(dsn), &gorm.Config{})
+    if err != nil {
+        log.Fatal("连接数据库失败：", err)
+    }
+
+    // 自动迁移，确保数据库表结构和模型同步
+    db.AutoMigrate(&User{}, &Order{})
+
+    // 创建用户及关联订单
+    user := User{
+        Name:  "Alice",
+        Age:   28,
+        Email: "alice@example.com",
+        Orders: []Order{
+            {Item: "Laptop"},
+            {Item: "Smartphone"},
+        },
+    }
+    db.Create(&user)
+
+    // 查询用户及其订单
+    var u User
+    db.Preload("Orders").First(&u, user.ID)
+    fmt.Printf("用户：%v\n订单：%v\n", u, u.Orders)
+
+    // 更新用户数据
+    db.Model(&u).Update("Age", 29)
+
+    // 删除用户记录（级联删除订单需要手动处理或设置外键约束）
+    db.Delete(&u)
+}
+```
+在上述示例中，我们通过自动迁移确保数据库表结构与模型保持一致，并实现了用户和订单的创建、查询、更新和删除操作。通过 Preload 方法，我们还演示了如何加载关联数据。
+
+---
+
+### 💾 Redis
+
+#### 一、简介
+Redis 是一个开源的高性能键值数据库，支持多种数据结构，广泛用于缓存、消息队列、排行榜等场景。Go-Redis（github.com/redis/go-redis）是 Go 语言中最流行的 Redis 客户端之一，支持：  
+- 单机、哨兵（Sentinel）、集群（Cluster）模式
+- 连接池管理
+- 发布 / 订阅
+- 事务与管道（Pipeline）
+- Lua 脚本
+- 分布式锁
+
+本教程基于 go-redis v9，它是目前的稳定版本，API 简洁且类型安全。
+
+#### 二、安装
+go-redis 支持最新的两个 Go 版本。您只能在 Go 模块中使用它，因此您必须在开始之前初始化一个 Go 模块，或者将您的代码添加到现有模块中。
+```bash
+go mod init github.com/my/repo
+```
+
+使用 go get 命令安装 go-redis/v9
+```bash
+go get github.com/redis/go-redis/v9
+```
+
+#### 三、连接Redis
+3.1 以下示例展示了连接到 Redis 服务器的最简单方法:
+```go
+import (
+	"context"
+	"fmt"
+	"github.com/redis/go-redis/v9"
+)
+
+func main() {    
+    client := redis.NewClient(&redis.Options{
+        Addr:	  "localhost:6379",
+        Password: "", // No password set
+        DB:		  0,  // Use default DB
+        Protocol: 2,  // Connection protocol
+    })
+}
+```
+
+也可以使用连接字符串进行连接:
+```go
+opt, err := redis.ParseURL("redis://<user>:<pass>@localhost:6379/<db>")
+if err != nil {
+	panic(err)
+}
+client := redis.NewClient(opt)
+```
+
+连接后，可以通过存储和检索一个简单的字符串来测试连接:
+```go
+ctx := context.Background()
+
+err := client.Set(ctx, "foo", "bar", 0).Err()
+if err != nil {
+    panic(err)
+}
+
+val, err := client.Get(ctx, "foo").Result()
+if err != nil {
+    panic(err)
+}
+fmt.Println("foo", val)
+```
+
+**3.2 哨兵模式**    
+要连接到由 Redis Sentinel 管理的 Redis 服务器
+```go
+import "github.com/redis/go-redis/v9"
+
+rdb := redis.NewFailoverClient(&redis.FailoverOptions{
+    MasterName:    "mymaster",
+    SentinelAddrs: []string{"127.0.0.1:26379", "127.0.0.1:26380"},
+})
+```
+要连接到 Redis Sentinel 本身
+```go
+import "github.com/redis/go-redis/v9"
+
+sentinel := redis.NewSentinelClient(&redis.Options{
+    Addr: ":9126",
+})
+
+addr, err := sentinel.GetMasterAddrByName(ctx, "master-name").Result()
+```
+**3.3 集群模式**      
+要连接到 Redis 集群，请使用 `NewClusterClient()`。可以使用 Addrs 选项指定一个或多个集群端点
+```go
+rdb := redis.NewClusterClient(&redis.ClusterOptions{
+    Addrs: []string{
+        "127.0.0.1:7000",
+        "127.0.0.1:7001",
+        "127.0.0.1:7002",
+    },
+})
+```
+**3.4 使用 TLS 连接生产环境 Redis**
+```go
+// Load client cert
+cert, err := tls.LoadX509KeyPair("redis_user.crt", "redis_user_private.key")
+if err != nil {
+    log.Fatal(err)
+}
+
+// Load CA cert
+caCert, err := os.ReadFile("redis_ca.pem")
+if err != nil {
+    log.Fatal(err)
+}
+caCertPool := x509.NewCertPool()
+caCertPool.AppendCertsFromPEM(caCert)
+
+client := redis.NewClient(&redis.Options{
+    Addr:     "my-redis.cloud.redislabs.com:6379",
+    Username: "default", // use your Redis user. More info https://redis.ac.cn/docs/latest/operate/oss_and_stack/management/security/acl/
+    Password: "secret", // use your Redis password
+    TLSConfig: &tls.Config{
+        MinVersion:   tls.VersionTLS12,
+        Certificates: []tls.Certificate{cert},
+        RootCAs:      caCertPool,
+    },
+})
+
+//send SET command
+err = client.Set(ctx, "foo", "bar", 0).Err()
+if err != nil {
+    panic(err)
+}
+
+//send GET command and print the value
+val, err := client.Get(ctx, "foo").Result()
+if err != nil {
+    panic(err)
+}
+fmt.Println("foo", val)
+```
+---
+#### 四、 核心数据类型操作
+**4.1 String**
+```go
+// 设置值
+err := rdb.Set(ctx, "name", "Alice", 0).Err()
+
+// 获取值
+val, _ := rdb.Get(ctx, "name").Result()
+
+// 自增
+count, _ := rdb.Incr(ctx, "counter").Result()
+```
+
+**4.2 Hash**
+```go
+// 设置字段
+err := rdb.HSet(ctx, "user:1", "name", "Alice", "age", 20).Err()
+
+// 获取字段
+name, _ := rdb.HGet(ctx, "user:1", "name").Result()
+
+// 获取所有字段
+user, _ := rdb.HGetAll(ctx, "user:1").Result()
+```
+
+**4.3 List**
+```go
+// 左侧添加
+err := rdb.LPush(ctx, "queue", "task1", "task2").Err()
+
+// 右侧弹出
+task, _ := rdb.RPop(ctx, "queue").Result()
+
+// 获取范围
+elements, _ := rdb.LRange(ctx, "queue", 0, -1).Result()
+```
+
+**4.4 Set**
+```go
+// 添加元素
+err := rdb.SAdd(ctx, "tags", "go", "redis").Err()
+
+// 获取所有元素
+tags, _ := rdb.SMembers(ctx, "tags").Result()
+
+// 判断元素是否存在
+exists, _ := rdb.SIsMember(ctx, "tags", "go").Result()
+```
+
+**4.5 Sorted Set**
+```go
+// 添加元素
+err := rdb.ZAdd(ctx, "rank", redis.Z{Score: 90, Member: "Alice"}).Err()
+
+// 获取排名
+members, _ := rdb.ZRange(ctx, "rank", 0, -1).WithScores().Result()
+```
+---
+#### 五. 高级功能
+**5.1 管道（Pipeline）**
+```go
+pipe := rdb.Pipeline()
+pipe.Incr(ctx, "counter1")
+pipe.Incr(ctx, "counter2")
+_, err := pipe.Exec(ctx)
+```
+**5.2 事务**
+```go
+tx := rdb.Multi()
+tx.Incr(ctx, "counter1")
+tx.Incr(ctx, "counter2")
+_, err := tx.Exec(ctx)
+```
+**5.3 发布 / 订阅**
+```go
+// 发布
+err := rdb.Publish(ctx, "channel1", "hello").Err()
+
+// 订阅
+pubsub := rdb.Subscribe(ctx, "channel1")
+ch := pubsub.Channel()
+for msg := range ch {
+    fmt.Println(msg.Channel, msg.Payload)
+}
+```
+**5.4 分布式锁**
+```go
+lock := redis.NewLock(rdb, "lock_key")
+err := lock.Acquire(ctx)
+defer lock.Release(ctx)
+```
+---
+
+#### 六、 实战案例
+**6.1 缓存示例**
+```go
+func GetUser(ctx context.Context, rdb *redis.Client, id string) (User, error) {
+    // 先查缓存
+    data, err := rdb.Get(ctx, "user:"+id).Result()
+    if err == nil {
+        var user User
+        json.Unmarshal([]byte(data), &user)
+        return user, nil
+    }
+
+    // 缓存未命中，查数据库
+    user := queryUserFromDB(id)
+    
+    // 写入缓存
+    jsonData, _ := json.Marshal(user)
+    rdb.SetEx(ctx, "user:"+id, jsonData, 10*time.Minute)
+    
+    return user, nil
+}
+```
+**6.2 排行榜**
+```go
+// 添加成绩
+rdb.ZAdd(ctx, "rank", redis.Z{Score: 95, Member: "Alice"})
+rdb.ZAdd(ctx, "rank", redis.Z{Score: 88, Member: "Bob"})
+
+// 获取前三名
+result, _ := rdb.ZRevRangeWithScores(ctx, "rank", 0, 2).Result()
+for _, z := range result {
+    fmt.Printf("%s: %.0f\n", z.Member, z.Score)
+}
+```
+参考资料：https://redis.ac.cn/docs/latest/develop/clients/go/transpipe/
+https://redis.golang.ac.cn/guide/ring.html
 
 ---
 
