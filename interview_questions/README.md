@@ -751,7 +751,7 @@ func GetDB() *DB {
 ```
 ---
 
-## 六、MySQL
+# 六、MySQL
 <h3 id="subject_40">MySQL的引擎有了解吗？</h3>
 
 MySQL支持多种存储引擎，常见的包括InnoDB、MyISAM、Memory、CSV、Archive等。  
@@ -1030,7 +1030,7 @@ EXPLAIN 用于分析 SQL 执行计划，核心关注 5 个字段：
 
 ---
 
-## 七、Redis
+# 七、Redis
 <h3 id="subject_54"> Redis支持哪些数据结构？</h3>
 Redis支持以下主要数据结构：
 - String：字符串类型，可存储文本或二进制数据
