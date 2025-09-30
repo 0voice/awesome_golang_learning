@@ -1826,23 +1826,16 @@ func (c *UserAPIController) Delete() {
 
 ---
 
+## 💻 项目实战
 
-
-
-
-
-##  💻 项目实战
-| No. | address | description | 
-| :--- | :--- | :--- |
-| 1 | [Gin-vue-admin](https://github.com/flipped-aurora/gin-vue-admin) | 这是一个基于 vue 和 gin 开发的全栈前后端分离的开发基础平台，集成了 jwt 鉴权、动态路由、动态菜单、casbin 鉴权、表单生成器、代码生成器等功能，提供多种示例文件，还配有完整的文档教程和视频教程，非常适合新手入门学习 |
-| 2 | [rpcx](https://github.com/smallnest/rpcx) | 一个分布式的 Go 语言的 RPC 框架，支持 Zookepper、etcd、consul 多种服务发现方式和多种服务路由方式，是目前性能最好的 RPC 框架之一，文档比较齐全，有专门的团队维护，适合新手入门 RPC 领域 |
-| 3 | [go-kit](https://github.com/go-kit/kit) | 基于 go-kit 可以快速构建健壮、可靠、可维护的微服务，它提供了对 consul、etcd、zookeeper、eureka 等注册中心的支持 |
-| 4 | [go-backend-clean-architecture](https://github.com/amitshekhariitbhu/go-backend-clean-architecture) | 该项目通过一个 HTTP demo 介绍了一个优雅的 Go 项目结构，采用了整洁架构，包含了接口层、业务层、数据层等，对于学习如何构建结构清晰、易于维护的 Go 项目有很大帮助 |
-| 5 | [golang-gin-realworld-example-app](https://github.com/gothinkster/golang-gin-realworld-example-app) | 这是一个使用 Golang 和 Gin 构建的真实世界应用示例，实现了常见的 CRUD 操作、用户认证、JWT 鉴权等功能，遵循 RESTful API 规范，是学习 Gin 框架和实际项目开发的不错范例 |
-| 6 | [miniblog](https://github.com/onexstack/miniblog) | 这是一个轻量但功能齐全的博客系统，参考 Kubernetes 的软件设计，采用独有的三层架构。项目集成了 gorm、casbin、jwt - go 等常用 Go 包，实现了基于 JWT 的认证和基于 Casbin 的授权功能，还包含单元测试、性能测试等多种测试案例。配套有完整的课程（共 40 节课），从 0 到 1 介绍 Go 项目的构建思路和实现方法，并且有一个与之完全匹配的开发脚手架 osbuilder，可以一键生成新的 Go 项目 |
-| 7 | [go - by - example](https://github.com/wangkechun/go) | 这是字节青训营的配套项目，包含三个小项目。“guessing - game” 是一个猜数字游戏，帮助初学者熟悉 Go 语言的基本语法；“simpledict” 是一个简易翻译工具，通过调用翻译软件的 API 实现翻译功能，还涉及到并发编程的知识；“proxy” 是一个简易版的 socks5 代理服务器，实现了代理服务器的认证和连接功能，有助于理解网络编程 |
-| 8 | [Ferry](https://github.com/lanyulei/ferry) | 基于 Gin + Vue + Element UI 前后端分离的工单系统，集工单统计、任务钩子、权限管理、灵活配置流程与模版等功能于一身，致力于减少跨部门之间的沟通，提升工作效率与工作质量 |
-| 9 | [IAM](https://github.com/marmotedu/iam) | 一个基于 Go 语言开发的身份识别与访问管理系统，用于对资源访问进行授权，项目用到了 Go 企业开发的大部分核心技能点，可作为学习 Go 语言积累项目经验的不错项目 |
-
-
-
+| 难度 | No. | 项目地址 | 前置知识 | 学习目标 | 项目描述 | 适合阶段 |
+| :--- | :--- | :--- | :--- | :--- | :--- | :--- |
+| ⭐ | 1 | [go-by-example](https://github.com/wangkechun/go) | - Go 基础语法<br>- HTTP 客户端<br>- 并发编程（goroutine/channel） | - 掌握 Go 语法的实际应用<br>- 学会调用第三方 API<br>- 理解并发任务处理<br>- 了解网络代理服务器原理 | 提供大量 Go 语言的示例代码，从基础到进阶覆盖语法、并发、网络等多个方面，适合边学边练。 | 入门 |
+| ⭐⭐ | 2 | [golang-gin-realworld-example-app](https://github.com/gothinkster/golang-gin-realworld-example-app) | - Go 基础语法<br>- Gin 框架<br>- RESTful API 设计<br>- JWT 认证 | - 掌握 RESTful API 开发规范<br>- 学会用 Gin 实现完整的 CRUD<br>- 理解 JWT 认证流程<br>- 熟悉 Swagger API 文档生成 | 基于 Gin 框架实现的 RealWorld 示例项目，包含用户管理、文章发布等功能，完全符合生产级 API 标准。 | 入门 |
+| ⭐⭐ | 3 | [go-backend-clean-architecture](https://github.com/amitshekhariitbhu/go-backend-clean-architecture) | - Go 基础语法<br>- HTTP 服务开发<br>- 分层架构概念 | - 理解整洁架构（Clean Architecture）<br>- 掌握 Go 项目的合理目录结构<br>- 学会依赖注入<br>- 提升代码可维护性与可测试性 | 演示如何用 Go 实现整洁架构，代码分层清晰，易于测试和维护，适合想提升架构能力的开发者。 | 进阶 |
+| ⭐⭐⭐ | 4 | [miniblog](https://github.com/onexstack/miniblog) | - Go 基础语法<br>- Gin 框架<br>- GORM<br>- JWT / Casbin 基础 | - 掌握分层架构设计（API / Service / DAO）<br>- 学会 JWT 认证与 Casbin 权限控制<br>- 理解单元测试与性能测试<br>- 熟悉 Go 项目工程化实践 | 一个功能完备的博客系统，包含文章管理、用户认证、权限控制等模块，项目结构清晰，适合学习工程化开发。 | 进阶 |
+| ⭐⭐⭐ | 5 | [rpcx](https://github.com/smallnest/rpcx) | - Go 基础语法<br>- 网络编程基础（TCP/UDP）<br>- 服务发现概念 | - 理解 RPC 原理及与 HTTP 的区别<br>- 掌握 rpcx 框架的使用<br>- 学会服务注册与发现（etcd/consul/zookeeper）<br>- 了解分布式系统基础 | 高性能的 Go RPC 框架，支持多种序列化协议和服务发现方式，适合构建分布式系统和微服务。 | 进阶 |
+| ⭐⭐⭐⭐ | 6 | [Ferry](https://github.com/lanyulei/ferry) | - Go 基础语法<br>- Gin 框架<br>- Vue.js 基础<br>- MySQL / Redis 基础 | - 掌握前后端分离工单系统开发<br>- 学会流程引擎设计<br>- 理解权限管理与任务调度<br>- 提升复杂业务逻辑实现能力 | 企业级工单系统，支持流程定义、任务分配、权限控制等功能，前后端分离架构，适合学习复杂业务开发。 | 高级 |
+| ⭐⭐⭐⭐ | 7 | [go-kit](https://github.com/go-kit/kit) | - Go 基础语法<br>- 微服务概念<br>- HTTP / RPC 基础 | - 掌握 go-kit 微服务框架<br>- 学会使用中间件扩展服务功能<br>- 了解服务注册与发现<br>- 掌握可观测性（日志、监控、追踪） | 一套用于构建微服务的 Go 开发工具集，提供了服务发现、负载均衡、监控等组件，适合构建高可用微服务。 | 高级 |
+| ⭐⭐⭐⭐⭐ | 8 | [IAM](https://github.com/marmotedu/iam) | - Go 基础语法<br>- 微服务架构<br>- MySQL / Redis<br>- OAuth2.0 / JWT | - 掌握企业级身份认证系统设计<br>- 学会权限管理与访问控制<br>- 理解微服务间通信<br>- 熟悉 Go 在大型项目中的工程化实践 | 企业级身份认证与授权系统，支持多租户、细粒度权限控制，基于微服务架构实现，适合学习大型系统设计。 | 高级 |
+| ⭐⭐⭐⭐⭐ | 9 | [Gin-vue-admin](https://github.com/flipped-aurora/gin-vue-admin) | - Go 基础语法<br>- Gin 框架<br>- Vue.js 基础<br>- MySQL 基础<br>- JWT 认证原理 | - 掌握前后端分离开发流程<br>- 学会使用 Gin 构建 RESTful API<br>- 理解 JWT 鉴权与动态路由<br>- 掌握 Casbin 权限控制<br>- 熟悉代码生成器与项目脚手架使用 | 一套完整的前后端分离权限管理系统，内置代码生成器、动态路由、RBAC 权限控制等功能，适合作为企业级项目脚手架。 | 高级 |
