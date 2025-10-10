@@ -161,10 +161,10 @@ interface{} 底层有两个字段：
 
 <h3 id="subject_13">Map 的底层实现、并发安全性及扩容机制是什么？</h3>
 
-底层实现：基于哈希表，核心结构为hmap（哈希表元数据）和bmap（桶）：
+**底层实现**：基于哈希表，核心结构为hmap（哈希表元数据）和bmap（桶）：
 - hmap：存储哈希表整体信息，如元素数量（count）、桶数量的对数（B，桶数 = 2^B）、桶数组指针（buckets）、旧桶指针（oldbuckets，扩容时使用）、哈希种子（hash0）。
 - bmap：每个桶存储 8 个键值对，包含tophash（哈希值高 8 位，快速匹配键）、keys（键数组）、values（值数组）、overflow（溢出桶指针，解决哈希冲突）。  
-并发安全性：Golang 内置map非线程安全，多个 Goroutine 并发读写会触发fatal error: concurrent map read and map write。
+**并发安全性**：Golang 内置map非线程安全，多个 Goroutine 并发读写会触发fatal error: concurrent map read and map write。
 解决方案：
 1. 加锁：使用sync.Mutex（互斥锁）或sync.RWMutex（读写锁，读多写少时更高效）包裹map操作。  
 2. 使用sync.Map：Go 标准库为并发场景设计的map，通过 “读写分离”（read只读 map+dirty可写 map）减少锁竞争，适合读多写少、键值稳定的场景（如配置缓存）。
