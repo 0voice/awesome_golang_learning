@@ -13,3 +13,5 @@
 [Go 中的内存逃逸](https://github.com/0voice/awesome_golang_learning/blob/main/interview_questions/%E9%9D%A2%E8%AF%95%E9%A2%98%E8%AF%A6%E8%A7%A3/Go%20%E4%B8%AD%E7%9A%84%E5%86%85%E5%AD%98%E9%80%83%E9%80%B8.md)  
 [Go 中的错误处理机制](https://github.com/0voice/awesome_golang_learning/blob/main/interview_questions/%E9%9D%A2%E8%AF%95%E9%A2%98%E8%AF%A6%E8%A7%A3/Go%20%E4%B8%AD%E7%9A%84%E9%94%99%E8%AF%AF%E5%A4%84%E7%90%86%E6%9C%BA%E5%88%B6.md)  
 [类型断言和类型转换的区别](https://github.com/0voice/awesome_golang_learning/blob/main/interview_questions/%E9%9D%A2%E8%AF%95%E9%A2%98%E8%AF%A6%E8%A7%A3/Go%20%E4%B8%AD%E7%9A%84%E7%B1%BB%E5%9E%8B%E6%96%AD%E8%A8%80%E5%92%8C%E7%B1%BB%E5%9E%8B%E8%BD%AC%E6%8D%A2%E7%9A%84%E5%8C%BA%E5%88%AB.md)  
+[Go 中的锁及 sync.Mutex 与 sync.RWMutex 的区别](https://github.com/0voice/awesome_golang_learning/blob/main/interview_questions/%E9%9D%A2%E8%AF%95%E9%A2%98%E8%AF%A6%E8%A7%A3/Go%20%E4%B8%AD%E7%9A%84%E9%94%81%E5%8F%8A%20sync.Mutex%20%E4%B8%8E%20sync.RWMutex%20%E7%9A%84%E5%8C%BA%E5%88%AB.md)  
+
