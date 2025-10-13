@@ -1,8 +1,6 @@
 # 📖 Go语言面试题深度解析
 💡 本文档整理 Go 语言高频面试题及深度解析，以 “答案框架 + 原理拆解 + 实战避坑” 形式，帮你既会答题、更懂背后逻辑，适用于学习与面试。
 
-<br>
-
 ### 📌 目录
 [Map 的底层实现、并发安全性及扩容机制是什么？](https://github.com/0voice/awesome_golang_learning/blob/main/interview_questions/%E9%9D%A2%E8%AF%95%E9%A2%98%E8%AF%A6%E8%A7%A3/Map%20%E7%9A%84%E5%BA%95%E5%B1%82%E5%AE%9E%E7%8E%B0%E3%80%81%E5%B9%B6%E5%8F%91%E5%AE%89%E5%85%A8%E6%80%A7%E5%8F%8A%E6%89%A9%E5%AE%B9%E6%9C%BA%E5%88%B6%E6%98%AF%E4%BB%80%E4%B9%88%EF%BC%9F.md)  
 [进程、线程、协程的区别](https://github.com/0voice/awesome_golang_learning/blob/main/interview_questions/%E9%9D%A2%E8%AF%95%E9%A2%98%E8%AF%A6%E8%A7%A3/Go%E8%AF%AD%E8%A8%80%E4%B8%AD%E7%9A%84%E8%BF%9B%E7%A8%8B%E3%80%81%E7%BA%BF%E7%A8%8B%E3%80%81%E5%8D%8F%E7%A8%8B%E7%9A%84%E5%8C%BA%E5%88%AB.md)  
