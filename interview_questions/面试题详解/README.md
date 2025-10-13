@@ -11,3 +11,4 @@
 [defer 的执行机制](https://github.com/0voice/awesome_golang_learning/blob/main/interview_questions/%E9%9D%A2%E8%AF%95%E9%A2%98%E8%AF%A6%E8%A7%A3/Go%20%E4%B8%AD%20defer%20%E7%9A%84%E6%89%A7%E8%A1%8C%E6%9C%BA%E5%88%B6.md)  
 [GC 垃圾回收机制](https://github.com/0voice/awesome_golang_learning/blob/main/interview_questions/%E9%9D%A2%E8%AF%95%E9%A2%98%E8%AF%A6%E8%A7%A3/Go%20%E8%AF%AD%E8%A8%80%20GC%20%E5%9E%83%E5%9C%BE%E5%9B%9E%E6%94%B6%E6%9C%BA%E5%88%B6.md)  
 [Go语言中的channel](https://github.com/0voice/awesome_golang_learning/blob/main/interview_questions/%E9%9D%A2%E8%AF%95%E9%A2%98%E8%AF%A6%E8%A7%A3/Go%20%E8%AF%AD%E8%A8%80%E4%B8%AD%E7%9A%84Channel%20.md)
+[Go 切片（slice）的底层结构](https://github.com/0voice/awesome_golang_learning/blob/main/interview_questions/%E9%9D%A2%E8%AF%95%E9%A2%98%E8%AF%A6%E8%A7%A3/Go%20%E5%88%87%E7%89%87%EF%BC%88slice%EF%BC%89%E7%9A%84%E5%BA%95%E5%B1%82%E7%BB%93%E6%9E%84.md)  
