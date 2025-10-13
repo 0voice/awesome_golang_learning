@@ -8,4 +8,4 @@
 [Go语言中的进程、线程、协程的区别](https://github.com/0voice/awesome_golang_learning/blob/main/interview_questions/%E9%9D%A2%E8%AF%95%E9%A2%98%E8%AF%A6%E8%A7%A3/Go%E8%AF%AD%E8%A8%80%E4%B8%AD%E7%9A%84%E8%BF%9B%E7%A8%8B%E3%80%81%E7%BA%BF%E7%A8%8B%E3%80%81%E5%8D%8F%E7%A8%8B%E7%9A%84%E5%8C%BA%E5%88%AB.md)  
 [Go 字符串拼接的 4 种方式、底层原理及场景选择](https://github.com/0voice/awesome_golang_learning/blob/main/interview_questions/%E9%9D%A2%E8%AF%95%E9%A2%98%E8%AF%A6%E8%A7%A3/Go%20%E5%AD%97%E7%AC%A6%E4%B8%B2%E6%8B%BC%E6%8E%A5%E7%9A%84%204%20%E7%A7%8D%E6%96%B9%E5%BC%8F%E3%80%81%E5%BA%95%E5%B1%82%E5%8E%9F%E7%90%86%E5%8F%8A%E5%9C%BA%E6%99%AF%E9%80%89%E6%8B%A9.md)  
 [Go 语言 GMP 调度模型](https://github.com/0voice/awesome_golang_learning/blob/main/interview_questions/%E9%9D%A2%E8%AF%95%E9%A2%98%E8%AF%A6%E8%A7%A3/Go%20%E8%AF%AD%E8%A8%80%20GMP%20%E8%B0%83%E5%BA%A6%E6%A8%A1%E5%9E%8B.md)
-
+[Go 中 defer 的执行机制]()
