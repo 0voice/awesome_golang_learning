@@ -353,6 +353,11 @@ func main() {
 [68. Redis的Stream数据结构是什么？与List有什么区别？](https://github.com/0voice/awesome_golang_learning/blob/main/interview_questions/README.md#subject_68)  
 [69. Redis的Bitmap是什么？有什么应用场景？](https://github.com/0voice/awesome_golang_learning/blob/main/interview_questions/README.md#subject_69)  
 
+<br>
+
+[Golang面试题 深度解析+面试回答模板](https://github.com/0voice/awesome_golang_learning/tree/main/interview_questions/%E9%9D%A2%E8%AF%95%E9%A2%98%E8%AF%A6%E8%A7%A3)  
+[Golang大厂面试真题](https://github.com/0voice/awesome_golang_learning/tree/main/interview_questions/%E9%9D%A2%E8%AF%95%E7%9C%9F%E9%A2%98)
+
 ---
 
 
