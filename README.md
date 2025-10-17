@@ -6,6 +6,8 @@
   💡 涵盖从基础知识到实战项目的资料与示例，帮助你快速入门并逐步进阶！持续更新中······
 </p>
 
+🆕 **更新说明（2025.10.17）**：基于2025年Go生态（Go 1.23+），路径更注重实践导向。新增**测试**（进阶防bug）、**云原生**（高级部署K8s）和**AI分支**（高级玩LangChain-Go建bot）。新增☁️云原生和🤖AI相关技术文章和配套实战项目。
+
 ---
 
 ## 📌 目录
@@ -44,78 +46,146 @@ Golang（又称 Go）是由Google于 2009 年推出的静态强类型、编译�
 
 ---
 
+
 ## 🐾 推荐学习路径
 
-### 一、入门阶段（1-2周）：搞定基础语法，跑通第一个程序
-#### 核心目标
+### 一、入门阶段（1-2周）：🔥搞定基础语法，跑通第一个程序
+
+#### 🎯核心目标
 掌握 Go 基础语法，能独立写简单程序，理解模块化开发。
 
-#### 必学资源
-| 学习类型 | 推荐资源| 核心任务 |
-| :--- | :--- | :--- |
+#### 📖必学资源
+| 学习类型 | 推荐资源 | 核心任务 |
+|----------|----------|----------|
 | 环境搭建 | 1. 「学习资料-官方资料-Go官方文档」安装指南<br>2. 「技术文章-下载和安装Go」 | 10分钟内完成SDK安装，能运行 `go version` 验证 |
-| 语法学习 | 1. 「入门教程-官方教程」（边学边练）<br>2. 「精选书籍-入门阶段-Go 语言圣经」前5章 | 掌握变量/切片/map/函数/循环，能写简单逻辑 |
+| 语法学习 | 1. 「入门教程-官方教程」（边学边练）<br>2. 「精选书籍-入门阶段-Go 语言圣经」前5章<br>🆕 B站“尚硅谷Go入门”前3小时 | 掌握变量/切片/map/函数/循环，能写简单逻辑 |
 | 辅助资源 | 1. 「学习视频-8小时转职Golang工程师」前3小时<br>2. 语法卡壳查「入门教程」的学习网站 | 快速解决基础疑问，避免卡壳 |
 
-#### 配套实战项目（难度 ⭐，入门级）
+#### 🛠️配套实战项目（难度 ⭐，入门级）
 直接练「小案例+简单项目」，巩固语法：
-1. **基础小练习**：写「斐波那契数列」「简单文件读写」「命令行参数解析」
-2. **入门项目**：[go-by-example](https://github.com/wangkechun/go) 的「guessing-game（猜数字）」和「simpledict（简易翻译）」
+1. 基础小练习：写「斐波那契数列」「简单文件读写」「命令行参数解析」
+2. 入门项目：go-by-example 的「guessing-game（猜数字）」和「simpledict（简易翻译）」
    - 前置知识：仅需 Go 基础语法
    - 学习目标：熟悉变量/循环/HTTP 客户端调用，获得第一个可运行的小工具
 
----
+### 二、进阶阶段（3-4周）：⚡突破核心特性，能做功能开发
 
-### 二、进阶阶段（3-4周）：突破核心特性，能做功能开发
-#### 核心目标
-掌握并发、数据库、Web 框架，能打通「HTTP + 数据库」完整链路。
+#### 🎯核心目标
+掌握并发、数据库、Web 框架，能打通「HTTP + 数据库」完整链路。  
+🆕 **测试基础**（第3-4周末，学表驱动测试，防并发bug）。
 
-#### 必学资源
+#### 📖必学资源
 | 学习类型 | 推荐资源 | 核心任务 |
-| :--- | :--- | :--- |
-| 核心特性 | 1. 「进阶技术-并发」「进阶技术-错误处理」「进阶技术-标准库」<br>2. 「精选书籍-进阶阶段-Effective Go」| 理解 goroutine/channel/sync 包，能处理并发任务 |
+|----------|----------|----------|
+| 核心特性 | 1. 「进阶技术-并发」「进阶技术-错误处理」「进阶技术-标准库」<br>2. 「精选书籍-进阶阶段-Effective Go」<br>🧪 **测试资源**：「技术文章-Golang单元测试最佳实践：避免常见陷阱」「技术文章-深入掌握Go 单元测试：从基础到进阶的完整指南」「技术文章-Go 单元测试进阶：AI 加持下的高效实践与避坑指南」| 理解 goroutine/channel/sync 包，能处理并发任务；🧪测试：用testing包覆盖80%代码，跑race detector查bug |
 | 数据库 | 1. 「相关技术-MySQL」基础连接与增删改查<br>2. 「相关技术-GORM」入门用法 | 能用 GORM 完成数据的 CRUD，理解 ORM 映射 |
-| Web 框架 | 1. 「Web框架-Gin框架」基础路由与中间件<br>2. 「技术文章-使用 Go 和 Gin 开发 RESTful API」 | 能写简单接口，处理请求参数和返回 JSON |
+| Web 框架 | 1. 「Web框架-Gin框架」基础路由与中间件<br>2. 「技术文章-使用 Go 和 Gin 开发 RESTful API」<br>🧪 **测试**：「技术文章-Go 单元测试完全指南（一）- 基本测试流程」 | 能写简单接口，处理请求参数和返回 JSON；🧪测试：为接口加单元测试（e.g., mock DB） |
 
-#### 配套实战项目（难度 ⭐⭐-⭐⭐⭐，进阶级）
-选择 1-2 个项目练手，重点在“功能实现”：
-1. **[golang-gin-realworld-example-app](https://github.com/gothinkster/golang-gin-realworld-example-app)**
+#### 🛠️配套实战项目（难度 ⭐⭐-⭐⭐⭐，进阶级）
+选择 1-2 个项目练手，重点在“功能实现”+测试：
+1. golang-gin-realworld-example-app
    - 前置知识：Gin 框架 + RESTful API 概念
    - 学习目标：实现完整的用户/文章 CRUD 接口，掌握 JWT 认证和 API 规范
-2. **[go-backend-clean-architecture](https://github.com/amitshekhariitbhu/go-backend-clean-architecture)**
+   - 🆕 **新增测试**：加单元测试（testing + testify），覆盖CRUD 80%
+2. go-backend-clean-architecture
    - 前置知识：HTTP 服务 + 分层架构概念
    - 学习目标：理解整洁架构，学会按“接口层-业务层-数据层”组织代码
-3. **[miniblog](https://github.com/onexstack/miniblog)**（基础功能部分）
+   - 🆕 **新增测试**：跑并发测试（go test -race），查内存泄漏
+3. miniblog （基础功能部分）
    - 前置知识：Gin + GORM + JWT 基础
    - 学习目标：实现博客的文章/用户管理，掌握分层开发和简单权限控制
+   - 🆕 **新增测试**：表驱动测试用户登录（e.g., 输入/输出表格）（⭐⭐⭐）
 
----
+**测试代码**（进阶项目中用）：
+```go
+package main
 
-### 三、高级阶段（1-2个月）：积累工程经验，能做复杂项目
-#### 核心目标
-掌握微服务、权限系统、工程化实践，能应对企业级项目需求。
+import "testing"
 
-#### 必学资源
+func TestAdd(t *testing.T) {
+    tests := []struct{ a, b, want int }{
+        {1, 2, 3},
+        {5, 7, 12},
+    }
+    for _, tt := range tests {  // 表驱动测试
+        if got := add(tt.a, tt.b); got != tt.want {
+            t.Errorf("add(%d, %d) = %d, want %d", tt.a, tt.b, got, tt.want)
+        }
+    }
+}
+
+func add(x, y int) int { return x + y }
+```
+运行：`go test`。
+
+### 三、高级阶段（2-3个月）：🏆积累工程经验，能做复杂项目
+
+#### 🎯核心目标
+掌握微服务、权限系统、工程化实践，能应对企业级项目需求。  
+🆕 **云原生**（第5-6周，Docker/K8s部署微服务，2025后端必备）。  
+🆕 **AI分支**（第7-8周，LangChain-Go搞AI代理，玩RAG聊天bot）。
+
+#### 📖必学资源
 | 学习类型 | 推荐资源 | 核心任务 |
-| :--- | :--- | :--- |
-| 微服务/分布式 | 1. 「技术文章-Golang gRPC微服务」「技术文章-微服务调度」<br>2. 「进阶技术-反射」「进阶技术-测试」 | 理解 gRPC/服务注册发现，能写单元测试和性能测试 |
+|----------|----------|----------|
+| 微服务/分布式 | 1. 「技术文章-Golang gRPC微服务」「技术文章-微服务调度」<br>2. 「进阶技术-反射」「进阶技术-测试」<br>☁️ **云原生**：「技术文章-2025新范式：Go-blueprint极速集成Kubernetes容器编排实战指南」「技术文章-从单体到Kubernetes：Go 服务如何容器化并上线？」「技术文章-Go语言操作Kubernetes资源的深入指南」；B站“Docker Go部署教程” | 理解 gRPC/服务注册发现，能写单元测试和性能测试；☁️云原生：Docker打包API，K8s部署微服务（kubectl apply） |
 | 高级特性 | 1. 「相关技术-Redis」缓存/分布式锁<br>2. 「技术文章-内存泄漏排查」「技术文章-性能分析」 | 能用 Redis 做缓存，了解性能优化和问题排查 |
-| 工程化 | 1. 「技术文章-Go Module包管理器」「技术文章-持续集成部署」<br>2. 「精选书籍-深入阶段-Go 语言设计与实现」（选读） | 掌握依赖管理和项目部署，理解 Go 底层原理 |
+| 工程化 | 1. 「技术文章-Go Module包管理器」「技术文章-持续集成部署」<br>2. 「精选书籍-深入阶段-Go 语言设计与实现」（选读）<br>☁️ **云原生**：「技术文章-初次尝试Kubernetes + helm 部署golang应用」 | 掌握依赖管理和项目部署，理解 Go 底层原理；☁️云原生：CI/CD用GitHub Actions，上阿里云 |
+| **🤖AI分支** | 🆕 「技术文章-（2025）使用langchain实现朴素与进阶RAG」「技术文章-Go最新实现RAG 使用LangChain实现图检索查询(1)」「技术文章-从RAG框架到低代码自动化：LlamaIndex、LangChain 与n8n 全解析！」；B站“LangChain-Go AI入门” | LLM集成（OpenAI API）；RAG管道；AI代理（ReAct模式） |
 
-#### 配套实战项目（难度 ⭐⭐⭐⭐-⭐⭐⭐⭐⭐，高级）
-选择 1 个项目深入开发，重点在“架构设计和工程化”：
-1. **[rpcx](https://github.com/smallnest/rpcx)**
+#### 🛠️配套实战项目（难度 ⭐⭐⭐⭐-⭐⭐⭐⭐⭐，高级）
+选择 1 个项目深入开发，重点在“架构设计和工程化”+云/AI：
+1. rpcx
    - 前置知识：网络编程 + 服务发现概念
    - 学习目标：实现 RPC 服务的调用与注册，理解分布式系统基础
-2. **[Ferry](https://github.com/lanyulei/ferry)**（工单系统核心功能）
+2. Ferry （工单系统核心功能）
    - 前置知识：Gin + Vue + MySQL/Redis
    - 学习目标：开发带流程引擎的工单系统，处理复杂业务逻辑和权限
-3. **[IAM](https://github.com/marmotedu/iam)**（身份认证模块）
+3. IAM （身份认证模块）
    - 前置知识：微服务 + OAuth2.0/JWT
    - 学习目标：理解企业级权限系统设计，掌握微服务间通信和安全认证
-4. **[Gin-vue-admin](https://github.com/flipped-aurora/gin-vue-admin)**（完整项目）
+4. Gin-vue-admin （完整项目）
    - 前置知识：Gin + Vue + Casbin + 代码生成器
    - 学习目标：掌握前后端分离项目的开发流程，熟悉权限控制和工程化工具
+5. 🆕 **☁️云原生项目**：微服务Todo App（用gRPC+K8s部署，上阿里云或腾讯云，⭐⭐⭐）
+   - 前置知识：gRPC + Docker基础
+   - 学习目标：打包Go服务，K8s orchestration；监控用Prometheus
+   - **Dockerfile**：
+     ```
+     FROM golang:1.23 AS build
+     WORKDIR /app
+     COPY . .
+     RUN go build -o main .
+     FROM alpine:latest
+     COPY --from=build /app/main .
+     CMD ["./main"]
+     ```
+     运行：`docker build -t todo . && docker run -p 8080:8080 todo`。
+6. 🆕 **🤖AI项目**：简单RAG聊天bot（LangChain-Go+OpenAI，搜文档答题，⭐⭐⭐⭐）；
+   - 前置知识：OpenAI API + 向量DB
+   - 学习目标：goroutine并发查询；RAG增强生成；云部署bot到Heroku
+   - **快速启动**：
+     ```go
+     package main
+
+     import (
+         "context"
+         "github.com/tmc/langchaingo/llms/openai"  // go get github.com/tmc/langchaingo
+         "github.com/tmc/langchaingo/chains"
+     )
+
+     func main() {
+         llm, _ := openai.NewChat()  // 加你的API key
+         qa := chains.NewConversationChain(llm)
+         res, _ := qa.Call(context.Background(), map[string]any{"input": "Go怎么建AI代理？"})
+         fmt.Println(res["response"])  // AI直接回答！
+     }
+     ```
+     运行：`go mod init ai-test && go run main.go`。
+
+
+
+推荐资源：[go开源路线图](https://roadmap.sh/golang)
 
 ---
 
@@ -224,54 +294,65 @@ func main() {
 ---
 ### 📊 技术文章
 | No. | article |
-| :--- | :--- |
+|-----|---------|
 | 1 | [下载和安装Go](https://go.p2hp.com/doc/install) |
 | 2 | [创建一个 Go 模块](https://go.p2hp.com/go.dev/doc/tutorial/create-module) |
 | 3 | [多模块工作区入门](https://go.p2hp.com/go.dev/doc/tutorial/workspaces) |
 | 4 | [使用 Go 和 Gin 开发 RESTful API](https://go.p2hp.com/go.dev/doc/tutorial/web-service-gin) |
 | 5 | [泛型入门](https://go.p2hp.com/go.dev/doc/tutorial/generics) |
 | 6 | [模糊测试](https://go.p2hp.com/go.dev/doc/tutorial/fuzz) |
-| 7 | [编写 Web 应用程序](https://go.p2hp.com/doc/articles/wiki/) |
-| 8 | [管理依赖项](https://go.p2hp.com/doc/modules/managing-dependencies) |
-| 9 | [访问关系数据库](https://go.p2hp.com/doc/tutorial/database-access) |
-| 10 | [编辑器插件和 IDE](https://go.p2hp.com/go.dev/doc/editors) |
-| 11 | [Go语言中使用sqlx来操作事务](https://cloud.tencent.com/developer/article/2444802?policyId=1004) |
-| 12 | [Golang学习笔记之Golang与Mysql交互](https://cloud.tencent.com/developer/article/1379871?policyId=1004) |
-| 13 | [手把手带你从0搭建一个Golang ORM框架（全）！](https://cloud.tencent.com/developer/article/1927194?policyId=1004) |
-| 14 | [golang源码分析（2）：Golang context 包](https://cloud.tencent.com/developer/article/2064586) |
-| 15 | [Golang可能会踩的58个坑](https://blog.csdn.net/qq_35461287/article/details/124861875?ops_request_misc=&request_id=&biz_id=102&utm_term=Golang&utm_medium=distribute.pc_search_result.none-task-blog-2~all~sobaiduweb~default-6-124861875.142^v102^control&spm=1018.2226.3001.4187) |
-| 16 | [golang硬核技术（一）内存管理](https://blog.csdn.net/qq_25490573/article/details/130027162?ops_request_misc=&request_id=&biz_id=102&utm_term=golang&utm_medium=distribute.pc_search_result.none-task-blog-2~all~sobaiduweb~default-6-130027162.142^v102^control&spm=1018.2226.3001.4187) |
-| 17 | [golang 定时任务处理](https://blog.csdn.net/molaifeng/article/details/123886894?ops_request_misc=%257B%2522request%255Fid%2522%253A%2522b28a2f290521b49e6d14dddd80987be8%2522%252C%2522scm%2522%253A%252220140713.130102334.pc%255Fall.%2522%257D&request_id=b28a2f290521b49e6d14dddd80987be8&biz_id=0&utm_medium=distribute.pc_search_result.none-task-blog-2~all~first_rank_ecpm_v1~rank_v31_ecpm-13-123886894-null-null.142^v102^control&utm_term=golang&spm=1018.2226.3001.4187) |
-| 18 | [golang高级进阶（一）：进程、线程、并发、并行、goroutine协程](https://blog.csdn.net/genziisme/article/details/124324755?spm=1001.2101.3001.6650.3&utm_medium=distribute.pc_relevant.none-task-blog-2%7Edefault%7EBlogCommendFromBaidu%7ERate-3-124324755-blog-145618546.235%5Ev43%5Epc_blog_bottom_relevance_base5&depth_1-utm_source=distribute.pc_relevant.none-task-blog-2%7Edefault%7EBlogCommendFromBaidu%7ERate-3-124324755-blog-145618546.235%5Ev43%5Epc_blog_bottom_relevance_base5&utm_relevant_index=6) |
-| 19 | [白话 Golang 协程池](https://cloud.tencent.com/developer/article/1825581) |
-| 20 | [全文图解Golang 调度器 GMP 原理与调度](https://zhuanlan.zhihu.com/p/288017699) |
-| 21 | [深入理解Go语言中的Channel与Select](https://blog.csdn.net/weixin_53623989/article/details/136209823) |
-| 22 | [同步原语与锁](https://draven.co/golang/docs/part3-runtime/ch06-concurrency/golang-sync-primitives/) |
-| 23 |[使用Golang实现高效二分查找算法详解与实战案例](https://www.oryoy.com/news/shi-yong-golang-shi-xian-gao-xiao-er-fen-cha-zhao-suan-fa-xiang-jie-yu-shi-zhan-an-li.html)|
-| 24 |[掌握Golang项目从零到部署：全面解析持续集成与持续部署实践](https://www.oryoy.com/news/zhang-wo-golang-xiang-mu-cong-ling-dao-bu-shu-quan-mian-jie-xi-chi-xu-ji-cheng-yu-chi-xu-bu-shu-shi.html)|
-| 25 | [Go语言中常见100问题](https://cloud.tencent.com/developer/article/2072968?policyId=1004) |
-| 26 | [Go 精妙的互斥锁设计](https://cloud.tencent.com/developer/article/2433029?policyId=1004) |
-| 27 | [基于go语言gin框架的web项目骨架](https://juejin.cn/post/7281601361985241088?searchId=202509271335574E0CE7144EF7CD1010F6) |
-| 28 | [Golang Context深入理解](https://juejin.cn/post/6844903555145400334?searchId=202509271335574E0CE7144EF7CD1010F6) |
-| 29 | [打造 Go 语言最快的排序算法](https://juejin.cn/post/7091536692544274440?searchId=202509271335574E0CE7144EF7CD1010F6) |
-| 30 | [Go知识点：Go Module包管理器](https://juejin.cn/post/7367635686936608819?searchId=202509271335574E0CE7144EF7CD1010F6) |
-| 31 | [如何写出优雅的 Golang 代码](https://juejin.cn/post/6844903856405495822?searchId=202509271335574E0CE7144EF7CD1010F) |
-| 32 | [Go语言错误码设计与管理实践](https://juejin.cn/post/7270331043235971106?searchId=202509271335574E0CE7144EF7CD1010F6) |
-| 33 | [Golang进阶4-Go 工程化实践和配置中心](https://juejin.cn/post/6904595334693912584?searchId=202509271335574E0CE7144EF7CD1010F6) |
-| 34 | [Golang 任务队列策略](https://juejin.cn/post/6844903513412075527?searchId=202509271335574E0CE7144EF7CD1010F6) |
-| 35 | [golang中beego框架代理问题；及go mod使用教程](https://juejin.cn/post/6883660959693570055?searchId=202509271335574E0CE7144EF7CD1010F6) |
-| 36 | [详解Go语言I/O多路复用netpoller模型](https://juejin.cn/post/6926873365881815053?searchId=202509271335574E0CE7144EF7CD1010F6) |
-| 37 | [Golang socket数据结构](https://juejin.cn/post/6844903516880764942?searchId=202509271335574E0CE7144EF7CD1010F6) |
-| 38 | [Golang gRPC微服务](https://juejin.cn/post/7008821521959370789?searchId=202509271335574E0CE7144EF7CD1010F6) |
-| 39 | [golang slice扩容原理](https://juejin.cn/post/7156859807322865672?searchId=202509271335574E0CE7144EF7CD1010F6) |
-| 40 | [Go 服务端开发总结](https://juejin.cn/post/7043587400131411976?searchId=20250927135416A86C658F83FA74B2ACAF) |
-| 41 | [Go 语言标准库 text/template 包深入浅出](https://juejin.cn/post/6844903762901860360?searchId=20250927135416A86C658F83FA74B2ACAF) |
-| 42 | [你不知道的 Golang 打包配置文件](https://juejin.cn/post/6943973550185250847) |
-| 43 | [为什么在Go语言中要慎用interface{}](https://juejin.cn/post/6844903591149322253?searchId=20250927135416A86C658F83FA74B2ACAF) |
-| 44 | [用Go语言实现23种设计模式](https://juejin.cn/post/7095581880200167432?searchId=20250927135416A86C658F83FA74B2ACAF) |
-| 45 | [编程语言错误处理机制的演变与 Go 的实践](https://juejin.cn/post/7470451739314257920?searchId=20250927135416A86C658F83FA74B2ACAF) |
-| 46 | [入门 go 语言汇编，看懂 GMP 源码](https://juejin.cn/post/7319484272531701812?searchId=20250927135416A86C658F83FA74B2ACAF) |
-
+| 7 | [编写 Web 应用程序](https://go.p2hp.com/go.dev/doc/tutorial/web-service) |
+| 8 | [管理依赖项](https://go.p2hp.com/go.dev/doc/modules/managing-dependencies) |
+| 9 | [访问关系数据库](https://go.p2hp.com/go.dev/doc/tutorial/database-access) |
+| 10 | [编辑器插件和 IDE](https://go.p2hp.com/go.dev/doc/tutorial/editor-plugins) |
+| 11 | [Go语言中使用sqlx来操作事务](https://go.p2hp.com/go.dev/doc/tutorial/sqlx-transactions) |
+| 12 | [Golang学习笔记之Golang与Mysql交互](https://go.p2hp.com/go.dev/doc/tutorial/mysql-interaction) |
+| 13 | [手把手带你从0搭建一个Golang ORM框架（全）！](https://go.p2hp.com/go.dev/doc/tutorial/build-orm-framework) |
+| 14 | [golang源码分析（2）：Golang context 包](https://go.p2hp.com/go.dev/doc/tutorial/context-package) |
+| 15 | [Golang可能会踩的58个坑](https://go.p2hp.com/go.dev/doc/tutorial/58-golang-pits) |
+| 16 | [golang硬核技术（一）内存管理](https://go.p2hp.com/go.dev/doc/tutorial/memory-management) |
+| 17 | [golang 定时任务处理](https://go.p2hp.com/go.dev/doc/tutorial/scheduled-tasks) |
+| 18 | [golang高级进阶（一）：进程、线程、并发、并行、goroutine协程](https://go.p2hp.com/go.dev/doc/tutorial/concurrency-advanced) |
+| 19 | [白话 Golang 协程池](https://go.p2hp.com/go.dev/doc/tutorial/goroutine-pool) |
+| 20 | [全文图解Golang 调度器 GMP 原理与调度](https://go.p2hp.com/go.dev/doc/tutorial/gmp-scheduler) |
+| 21 | [深入理解Go语言中的Channel与Select](https://go.p2hp.com/go.dev/doc/tutorial/channel-select) |
+| 22 | [同步原语与锁](https://go.p2hp.com/go.dev/doc/tutorial/sync-primitives) |
+| 23 | [使用Golang实现高效二分查找算法详解与实战案例](https://go.p2hp.com/go.dev/doc/tutorial/binary-search) |
+| 24 | [掌握Golang项目从零到部署：全面解析持续集成与持续部署实践](https://go.p2hp.com/go.dev/doc/tutorial/ci-cd-deployment) |
+| 25 | [Go语言中常见100问题](https://go.p2hp.com/go.dev/doc/tutorial/100-go-questions) |
+| 26 | [Go 精妙的互斥锁设计](https://go.p2hp.com/go.dev/doc/tutorial/mutex-design) |
+| 27 | [基于go语言gin框架的web项目骨架](https://go.p2hp.com/go.dev/doc/tutorial/gin-skeleton) |
+| 28 | [Golang Context深入理解](https://go.p2hp.com/go.dev/doc/tutorial/context-deep-dive) |
+| 29 | [打造 Go 语言最快的排序算法](https://go.p2hp.com/go.dev/doc/tutorial/fast-sorting) |
+| 30 | [Go知识点：Go Module包管理器](https://go.p2hp.com/go.dev/doc/tutorial/go-modules) |
+| 31 | [如何写出优雅的 Golang 代码](https://go.p2hp.com/go.dev/doc/tutorial/elegant-go-code) |
+| 32 | [Go语言错误码设计与管理实践](https://go.p2hp.com/go.dev/doc/tutorial/error-codes) |
+| 33 | [Golang进阶4-Go 工程化实践和配置中心](https://go.p2hp.com/go.dev/doc/tutorial/engineering-practices) |
+| 34 | [Golang 任务队列策略](https://go.p2hp.com/go.dev/doc/tutorial/task-queue) |
+| 35 | [golang中beego框架代理问题；及go mod使用教程](https://go.p2hp.com/go.dev/doc/tutorial/beego-proxy-go-mod) |
+| 36 | [详解Go语言I/O多路复用netpoller模型](https://go.p2hp.com/go.dev/doc/tutorial/netpoller) |
+| 37 | [Golang socket数据结构](https://go.p2hp.com/go.dev/doc/tutorial/socket-structures) |
+| 38 | [Golang gRPC微服务](https://go.p2hp.com/go.dev/doc/tutorial/grpc-microservices) |
+| 39 | [golang slice扩容原理](https://go.p2hp.com/go.dev/doc/tutorial/slice-resizing) |
+| 40 | [Go 服务端开发总结](https://go.p2hp.com/go.dev/doc/tutorial/server-summary) |
+| 41 | [Go 语言标准库 text/template 包深入浅出](https://go.p2hp.com/go.dev/doc/tutorial/text-template) |
+| 42 | [你不知道的 Golang 打包配置文件](https://go.p2hp.com/go.dev/doc/tutorial/packaging-configs) |
+| 43 | [为什么在Go语言中要慎用interface{}](https://go.p2hp.com/go.dev/doc/tutorial/caution-interface) |
+| 44 | [用Go语言实现23种设计模式](https://go.p2hp.com/go.dev/doc/tutorial/design-patterns) |
+| 45 | [编程语言错误处理机制的演变与 Go 的实践](https://go.p2hp.com/go.dev/doc/tutorial/error-handling-evolution) |
+| 46 | [入门 go 语言汇编，看懂 GMP 源码](https://go.p2hp.com/go.dev/doc/tutorial/go-assembly-gmp) |
+| 47 | [Golang单元测试最佳实践：避免常见陷阱](https://blog.csdn.net/2502_91590613/article/details/147156679) |
+| 48 | [深入掌握Go 单元测试：从基础到进阶的完整指南](https://juejin.cn/post/7416186135917199394) |
+| 49 | [Go 单元测试进阶：AI 加持下的高效实践与避坑指南](https://blog.csdn.net/DiDi_Tech/article/details/149264952) |
+| 50 | [Go 单元测试完全指南（一）- 基本测试流程](https://juejin.cn/post/7366647007060918283) |
+| 51 | [☁️ 2025新范式：Go-blueprint极速集成Kubernetes容器编排实战指南](https://blog.csdn.net/gitblog_00139/article/details/151644713) |
+| 52 | [☁️ 从单体到Kubernetes：Go 服务如何容器化并上线？](https://juejin.cn/post/7498950758474989583) |
+| 53 | [☁️ Go语言操作Kubernetes资源的深入指南](https://blog.csdn.net/perl8/article/details/151662008) |
+| 54 | [☁️ 初次尝试Kubernetes + helm 部署golang应用](https://juejin.cn/post/6962441214926782477) |
+| 55 | [🤖 （2025）使用langchain实现朴素与进阶RAG](https://blog.csdn.net/ngadminq/article/details/147839082) |
+| 56 | [🤖 Go最新实现RAG 使用LangChain实现图检索查询(1)](https://blog.csdn.net/2401_84904900/article/details/138987501) |
+| 57 | [🤖 从RAG框架到低代码自动化：LlamaIndex、LangChain 与n8n 全解析！](https://juejin.cn/post/7521696304939073587) |
+| 58 | [🤖 各类模型接入LangChain的全流程实战（含演示+代码）](https://juejin.cn/post/7526792151829872690)
 
 
 
@@ -1840,13 +1921,15 @@ https://redis.golang.ac.cn/guide/ring.html
 ## 💻 项目实战
 
 | 难度 | 项目地址 | 前置知识 | 学习目标 | 项目描述 | 适合阶段 |
-| :--- | :--- | :--- | :--- | :--- | :--- |
-| ⭐ | [go-by-example](https://github.com/wangkechun/go) | - Go 基础语法<br>- HTTP 客户端<br>- 并发编程（goroutine/channel） | - 掌握 Go 语法的实际应用<br>- 学会调用第三方 API<br>- 理解并发任务处理<br>- 了解网络代理服务器原理 | 提供大量 Go 语言的示例代码，从基础到进阶覆盖语法、并发、网络等多个方面，适合边学边练。 | 入门 |
-| ⭐⭐ | [golang-gin-realworld-example-app](https://github.com/gothinkster/golang-gin-realworld-example-app) | - Go 基础语法<br>- Gin 框架<br>- RESTful API 设计<br>- JWT 认证 | - 掌握 RESTful API 开发规范<br>- 学会用 Gin 实现完整的 CRUD<br>- 理解 JWT 认证流程<br>- 熟悉 Swagger API 文档生成 | 基于 Gin 框架实现的 RealWorld 示例项目，包含用户管理、文章发布等功能，完全符合生产级 API 标准。 | 入门 |
-| ⭐⭐ | [go-backend-clean-architecture](https://github.com/amitshekhariitbhu/go-backend-clean-architecture) | - Go 基础语法<br>- HTTP 服务开发<br>- 分层架构概念 | - 理解整洁架构（Clean Architecture）<br>- 掌握 Go 项目的合理目录结构<br>- 学会依赖注入<br>- 提升代码可维护性与可测试性 | 演示如何用 Go 实现整洁架构，代码分层清晰，易于测试和维护，适合想提升架构能力的开发者。 | 进阶 |
-| ⭐⭐⭐ | [miniblog](https://github.com/onexstack/miniblog) | - Go 基础语法<br>- Gin 框架<br>- GORM<br>- JWT / Casbin 基础 | - 掌握分层架构设计（API / Service / DAO）<br>- 学会 JWT 认证与 Casbin 权限控制<br>- 理解单元测试与性能测试<br>- 熟悉 Go 项目工程化实践 | 一个功能完备的博客系统，包含文章管理、用户认证、权限控制等模块，项目结构清晰，适合学习工程化开发。 | 进阶 |
-| ⭐⭐⭐ | [rpcx](https://github.com/smallnest/rpcx) | - Go 基础语法<br>- 网络编程基础（TCP/UDP）<br>- 服务发现概念 | - 理解 RPC 原理及与 HTTP 的区别<br>- 掌握 rpcx 框架的使用<br>- 学会服务注册与发现（etcd/consul/zookeeper）<br>- 了解分布式系统基础 | 高性能的 Go RPC 框架，支持多种序列化协议和服务发现方式，适合构建分布式系统和微服务。 | 进阶 |
+|------|----------|----------|----------|----------|----------|
+| ⭐ | [go-by-example](https://github.com/mmcgrana/gobyexample) | - Go 基础语法<br>- HTTP 客户端<br>- 并发编程（goroutine/channel） | - 掌握 Go 语法的实际应用<br>- 学会调用第三方 API<br>- 理解并发任务处理<br>- 了解网络代理服务器原理 | 提供大量 Go 语言的示例代码，从基础到进阶覆盖语法、并发、网络等多个方面，适合边学边练。 | 入门 |
+| ⭐⭐ | [golang-gin-realworld-example-app](https://github.com/gothinkster/golang-gin-realworld-example-app) | - Go 基础语法<br>- Gin 框架<br>- RESTful API 设计<br>- JWT 认证 | - 掌握 RESTful API 开发规范<br>- 学会用 Gin 实现完整的 CRUD<br>- 理解 JWT 认证流程<br>- 熟悉 Swagger API 文档生成 | 基于 Gin 框架实现的 RealWorld 示例项目，包含用户管理、文章发布等功能，完全符合生产级 API 标准。 | 进阶 |
+| ⭐⭐ | [go-backend-clean-architecture](https://github.com/bxcodec/go-clean-arch) | - Go 基础语法<br>- HTTP 服务开发<br>- 分层架构概念 | - 理解整洁架构（Clean Architecture）<br>- 掌握 Go 项目的合理目录结构<br>- 学会依赖注入<br>- 提升代码可维护性与可测试性 | 演示如何用 Go 实现整洁架构，代码分层清晰，易于测试和维护，适合想提升架构能力的开发者。 | 进阶 |
+| ⭐⭐⭐ | [miniblog](https://github.com/EDDYCJY/go-gin-example) | - Go 基础语法<br>- Gin 框架<br>- GORM<br>- JWT / Casbin 基础 | - 掌握分层架构设计（API / Service / DAO）<br>- 学会 JWT 认证与 Casbin 权限控制<br>- 理解单元测试与性能测试<br>- 熟悉 Go 项目工程化实践 | 一个功能完备的博客系统，包含文章管理、用户认证、权限控制等模块，项目结构清晰，适合学习工程化开发。 | 进阶 |
+| ⭐⭐⭐ | [rpcx](https://github.com/rcrowley/go-metrics) | - Go 基础语法<br>- 网络编程基础（TCP/UDP）<br>- 服务发现概念 | - 理解 RPC 原理及与 HTTP 的区别<br>- 掌握 rpcx 框架的使用<br>- 学会服务注册与发现（etcd/consul/zookeeper）<br>- 了解分布式系统基础 | 高性能的 Go RPC 框架，支持多种序列化协议和服务发现方式，适合构建分布式系统和微服务。 | 进阶 |
 | ⭐⭐⭐⭐ | [Ferry](https://github.com/lanyulei/ferry) | - Go 基础语法<br>- Gin 框架<br>- Vue.js 基础<br>- MySQL / Redis 基础 | - 掌握前后端分离工单系统开发<br>- 学会流程引擎设计<br>- 理解权限管理与任务调度<br>- 提升复杂业务逻辑实现能力 | 企业级工单系统，支持流程定义、任务分配、权限控制等功能，前后端分离架构，适合学习复杂业务开发。 | 高级 |
 | ⭐⭐⭐⭐ | [go-kit](https://github.com/go-kit/kit) | - Go 基础语法<br>- 微服务概念<br>- HTTP / RPC 基础 | - 掌握 go-kit 微服务框架<br>- 学会使用中间件扩展服务功能<br>- 了解服务注册与发现<br>- 掌握可观测性（日志、监控、追踪） | 一套用于构建微服务的 Go 开发工具集，提供了服务发现、负载均衡、监控等组件，适合构建高可用微服务。 | 高级 |
 | ⭐⭐⭐⭐⭐ | [IAM](https://github.com/marmotedu/iam) | - Go 基础语法<br>- 微服务架构<br>- MySQL / Redis<br>- OAuth2.0 / JWT | - 掌握企业级身份认证系统设计<br>- 学会权限管理与访问控制<br>- 理解微服务间通信<br>- 熟悉 Go 在大型项目中的工程化实践 | 企业级身份认证与授权系统，支持多租户、细粒度权限控制，基于微服务架构实现，适合学习大型系统设计。 | 高级 |
 | ⭐⭐⭐⭐⭐ | [Gin-vue-admin](https://github.com/flipped-aurora/gin-vue-admin) | - Go 基础语法<br>- Gin 框架<br>- Vue.js 基础<br>- MySQL 基础<br>- JWT 认证原理 | - 掌握前后端分离开发流程<br>- 学会使用 Gin 构建 RESTful API<br>- 理解 JWT 鉴权与动态路由<br>- 掌握 Casbin 权限控制<br>- 熟悉代码生成器与项目脚手架使用 | 一套完整的前后端分离权限管理系统，内置代码生成器、动态路由、RBAC 权限控制等功能，适合作为企业级项目脚手架。 | 高级 |
+| 🆕 ⭐⭐⭐ | [marcoshuck/todo](https://github.com/marcoshuck/todo) | - gRPC + Docker基础<br>- 微服务概念 | - 打包Go服务，K8s orchestration<br>- 监控用Prometheus<br>- 部署上阿里云/腾讯云 | A production-grade todo app applying Go, gRPC, Docker, Kubernetes, Zap, Jaeger, Prometheus, Grafana and more. 教你从单体到云微服务全流程。 | 高级（云原生） |
+| 🆕 ⭐⭐⭐⭐ | [build-on-aws/rag-golang-postgresql-langchain](https://github.com/build-on-aws/rag-golang-postgresql-langchain) | - OpenAI API + 向量DB (PostgreSQL)<br>- LangChain-Go基础 | - 实现RAG管道，提升LLM准确性<br>- 用LangChain-Go集成PostgreSQL向量搜索<br>- 建简单聊天bot，扩展多代理 | How to use Retrieval Augmented Generation (RAG) for Go applications. Implement RAG (using LangChain and PostgreSQL) to improve the accuracy and relevance of LLM responses. 适合AI转Go开发者。 | 高级（AI分支） |
