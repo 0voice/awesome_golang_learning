@@ -475,7 +475,7 @@ go get -u github.com/gin-gonic/gin
 
 **2.2 将其导入您的代码中：**
 ```bash
-import “github.com/gin-gonic/gin”
+import "github.com/gin-gonic/gin"
 ```
 示例：
 ```go
