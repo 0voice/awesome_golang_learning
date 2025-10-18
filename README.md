@@ -1,3 +1,19 @@
+# 🔥 Awesome Golang Learning: One-Stop Guide to Master Go (2025 Edition)
+
+## English Overview
+
+A curated roadmap for Go learners: From zero basics to advanced (Go 1.23+). Covers syntax, concurrency, frameworks (Gin/Beego), DB (GORM/Redis), and new 2025 tracks: Cloud-native (K8s/Docker) & AI (LangChain-Go RAG bots). Includes 69 interview Qs, books/videos, and 10+ hands-on projects to avoid common pitfalls.
+
+**Quick Learning Path (Table Summary):**
+
+| Stage        | Duration   | Focus                                 | Project Example                                              |
+| ------------ | ---------- | ------------------------------------- | ------------------------------------------------------------ |
+| Beginner     | 1-2 weeks  | Syntax, setup                         | Guessing game (code: fib seq + file I/O)                     |
+| Intermediate | 3-4 weeks  | Concurrency, Gin API, testing         | RealWorld app (Gin + JWT + unit tests)                       |
+| Advanced     | 2-3 months | Microservices, Redis, **NEW: K8s/AI** | Todo microservice (gRPC + Docker) or RAG Chatbot (LangChain-Go) |
+
+Dive deeper in Chinese below for full resources! 👇  
+
  <h1 align="center">📚 Golang一站式学习仓库</h1>
  <p align="center">
   🌟 本仓库旨在为学习 Golang 的程序员们提供学习资源导航
